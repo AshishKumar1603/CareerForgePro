@@ -16,7 +16,9 @@ const stripeRoutes = require("./routes/stripe");
 app.use("/api/pdf", pdfRoutes);
 app.use("/api/stripe", stripeRoutes);
 
-app.get("/", (req, res) => res.json({ message: "CareerForge Backend Running ✅" }));
+app.get("/", (req, res) =>
+  res.json({ message: "CareerForge Backend Running ✅" }),
+);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
