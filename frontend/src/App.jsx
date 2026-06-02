@@ -1,8 +1,8 @@
-import Login from"./pages/Login";
+import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Builder from "./pages/Builder";
 import ResumeBuilder from "./pages/ResumeBuilder";
-import Dashboard from "./pages/Dashboard"; 
+import Dashboard from "./pages/Dashboard";
 import JDAnalysis from "./pages/JDAnalysis";
 import ATSScore from "./pages/ATSScore";
 import CoverLetter from "./pages/CoverLetter";
@@ -12,10 +12,8 @@ import React, { useState, useEffect } from "react";
 import CreateAccount from "./pages/CreateAccount";
 import { ResumeProvider } from "./context/ResumeContext";
 
-
-
 function App() {
-  console.log("GROQ KEY:", import.meta.env.VITE_GROQ_API_KEY)
+  // console.log("GROQ KEY:", import.meta.env.VITE_GROQ_API_KEY)
   const [currentPage, setCurrentPage] = useState(() => {
     return localStorage.getItem("currentPage") || "home";
   });
@@ -39,15 +37,11 @@ function App() {
     document.title = pageTitles[currentPage] || "CareerForge Pro";
   }, [currentPage]);
 
-
-
-
-
   const [isDark, setIsDark] = useState(() => {
-    return document.documentElement.classList.contains('dark');
+    return document.documentElement.classList.contains("dark");
   });
   const [isPro, setIsPro] = useState(() => {
-    return localStorage.getItem('isPro') === 'true';
+    return localStorage.getItem("isPro") === "true";
   });
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return localStorage.getItem("isAuthenticated") === "true";
@@ -56,17 +50,47 @@ function App() {
   // --- GLOBAL DATA STATE ---
   // Shared across the app so Dashboard and Builders can talk to each other
   const [resumes, setResumes] = useState([
-    { id: 1, name: "Fullstack_Developer_v1.pdf", date: "2 days ago", content: "Resume Content for Fullstack Developer...", type: "Resume" },
-    { id: 2, name: "Python_Backend_v2.pdf", date: "5 days ago", content: "Resume Content for Python Backend...", type: "Resume" }
+    {
+      id: 1,
+      name: "Fullstack_Developer_v1.pdf",
+      date: "2 days ago",
+      content: "Resume Content for Fullstack Developer...",
+      type: "Resume",
+    },
+    {
+      id: 2,
+      name: "Python_Backend_v2.pdf",
+      date: "5 days ago",
+      content: "Resume Content for Python Backend...",
+      type: "Resume",
+    },
   ]);
 
   const [jobs, setJobs] = useState([
-    { id: 101, company: "Google", role: "Frontend Intern", location: "Hyderabad", details: "Requires React and Tailwind CSS knowledge." },
-    { id: 102, company: "Microsoft", role: "Software Engineer", location: "Bangalore", details: "Focus on Azure and C# development." }
+    {
+      id: 101,
+      company: "Google",
+      role: "Frontend Intern",
+      location: "Hyderabad",
+      details: "Requires React and Tailwind CSS knowledge.",
+    },
+    {
+      id: 102,
+      company: "Microsoft",
+      role: "Software Engineer",
+      location: "Bangalore",
+      details: "Focus on Azure and C# development.",
+    },
   ]);
 
   const [coverLetters, setCoverLetters] = useState([
-    { id: 201, title: "Cover Letter - Google", content: "Dear Hiring Manager, I am excited to apply for the position at Google...", date: "Yesterday" }
+    {
+      id: 201,
+      title: "Cover Letter - Google",
+      content:
+        "Dear Hiring Manager, I am excited to apply for the position at Google...",
+      date: "Yesterday",
+    },
   ]);
 
   const [jdAnalyses, setJdAnalyses] = useState([]);
@@ -76,9 +100,13 @@ function App() {
   // Global helper to trigger a browser download
   const handleDownload = (filename, content) => {
     const element = document.createElement("a");
-    const file = new Blob([content || "CareerForge Pro Document Content"], { type: 'text/plain' });
+    const file = new Blob([content || "CareerForge Pro Document Content"], {
+      type: "text/plain",
+    });
     element.href = URL.createObjectURL(file);
-    element.download = filename ? `${filename.split('.')[0]}.txt` : "document.txt";
+    element.download = filename
+      ? `${filename.split(".")[0]}.txt`
+      : "document.txt";
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -86,22 +114,22 @@ function App() {
 
   const toggleDark = () => {
     const root = document.documentElement;
-    if (root.classList.contains('dark')) {
-      root.classList.remove('dark');
-      localStorage.theme = 'light';
+    if (root.classList.contains("dark")) {
+      root.classList.remove("dark");
+      localStorage.theme = "light";
       setIsDark(false);
     } else {
-      root.classList.add('dark');
-      localStorage.theme = 'dark';
+      root.classList.add("dark");
+      localStorage.theme = "dark";
       setIsDark(true);
     }
   };
 
   const upgradeToPro = () => {
     setIsPro(true);
-    localStorage.setItem('isPro', 'true');
+    localStorage.setItem("isPro", "true");
     // Simulate payment success - in real app, this would be after actual payment
-    alert('Payment successful! Pro features activated.');
+    alert("Payment successful! Pro features activated.");
   };
 
   return (
@@ -109,10 +137,7 @@ function App() {
       <Toaster position="top-right" reverseOrder={false} />
       <div className={isDark ? "dark" : ""}>
         {currentPage === "home" && (
-          <Home
-            setCurrentPage={setCurrentPage}
-            isPro={isPro}
-          />
+          <Home setCurrentPage={setCurrentPage} isPro={isPro} />
         )}
 
         {currentPage === "builder" && (

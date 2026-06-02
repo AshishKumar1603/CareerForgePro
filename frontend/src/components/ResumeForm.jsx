@@ -36,21 +36,26 @@ function ResumeForm({
     }
     try {
       setImprovingField(fieldName);
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`
+      const response = await fetch(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: [
+              {
+                role: "user",
+                content: `Rewrite this resume ${fieldName} section to sound more professional and impactful. Keep it concise. Return only the rewritten text, no explanation:\n\n${fieldValue}`,
+              },
+            ],
+            max_tokens: 500,
+          }),
         },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [{
-            role: "user",
-            content: `Rewrite this resume ${fieldName} section to sound more professional and impactful. Keep it concise. Return only the rewritten text, no explanation:\n\n${fieldValue}`
-          }],
-          max_tokens: 500
-        })
-      });
+      );
       const data = await response.json();
       const improved = data.choices[0].message.content;
       setResumeData({ ...resumeData, [fieldName]: improved });
@@ -63,36 +68,41 @@ function ResumeForm({
 
   const handleImproveResume = async () => {
     if (!pastedResume.trim()) {
-      alert("Please paste your resume first")
-      return
+      alert("Please paste your resume first");
+      return;
     }
     try {
-      setExtracting(true)
-      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`
+      setExtracting(true);
+      const response = await fetch(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: "llama-3.3-70b-versatile",
+            messages: [
+              {
+                role: "user",
+                content: `You are a professional resume editor. Improve this resume and extract fields. Return ONLY a JSON object with no extra text:\n{\n  "name": "",\n  "role": "",\n  "email": "",\n  "phone": "",\n  "address": "",\n  "skills": "",\n  "experience": "",\n  "projects": "",\n  "certifications": ""\n}\n\nResume: ${pastedResume}`,
+              },
+            ],
+            max_tokens: 1000,
+          }),
         },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [{
-            role: "user",
-            content: `You are a professional resume editor. Improve this resume and extract fields. Return ONLY a JSON object with no extra text:\n{\n  "name": "",\n  "role": "",\n  "email": "",\n  "phone": "",\n  "address": "",\n  "skills": "",\n  "experience": "",\n  "projects": "",\n  "certifications": ""\n}\n\nResume: ${pastedResume}`
-          }],
-          max_tokens: 1000
-        })
-      })
-      const data = await response.json()
-      const text = data.choices[0].message.content
-      const clean = text.replace(/```json|```/g, "").trim()
-      const parsed = JSON.parse(clean)
-      setResumeData({ ...resumeData, ...parsed })
-      setExtracted(true)
+      );
+      const data = await response.json();
+      const text = data.choices[0].message.content;
+      const clean = text.replace(/```json|```/g, "").trim();
+      const parsed = JSON.parse(clean);
+      setResumeData({ ...resumeData, ...parsed });
+      setExtracted(true);
     } catch (err) {
-      alert("AI improve failed. Check your VITE_GROQ_API_KEY in .env file.")
+      alert("AI improve failed. Check your VITE_GROQ_API_KEY in .env file.");
     } finally {
-      setExtracting(false)
+      setExtracting(false);
     }
   };
 
@@ -112,7 +122,8 @@ function ResumeForm({
           <div className="space-y-3">
             <div className="rounded-3xl border border-violet-200/70 dark:border-violet-700/50 bg-violet-50/80 dark:bg-violet-900/20 p-5 shadow-sm">
               <p className="text-sm text-gray-700 dark:text-gray-200 mb-3">
-                Paste your full resume below and CareerForge AI will extract and improve all fields automatically.
+                Paste your full resume below and CareerForge AI will extract and
+                improve all fields automatically.
               </p>
               <textarea
                 rows="6"
@@ -129,13 +140,32 @@ function ResumeForm({
               >
                 {extracting ? (
                   <>
-                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                    <svg
+                      className="animate-spin h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8z"
+                      />
                     </svg>
                     Improving with AI...
                   </>
-                ) : extracted ? "✅ Improved! Paste again to re-improve" : "✨ AI Improve Resume"}
+                ) : extracted ? (
+                  "✅ Improved! Paste again to re-improve"
+                ) : (
+                  "✨ AI Improve Resume"
+                )}
               </button>
             </div>
           </div>
@@ -288,13 +318,13 @@ function ResumeForm({
           {
             name: "projects",
             label: "Projects & Achievements",
-            placeholder: "Project Name — Brief description\nTech used, impact...",
+            placeholder:
+              "Project Name — Brief description\nTech used, impact...",
           },
           {
             name: "certifications",
             label: "Education & Certifications",
-            placeholder:
-              "B.Tech CSE — XYZ University (2022)\nAWS Certified...",
+            placeholder: "B.Tech CSE — XYZ University (2022)\nAWS Certified...",
           },
         ].map(({ name, label, placeholder }) => (
           <div key={name}>
@@ -317,7 +347,9 @@ function ResumeForm({
                 disabled={improvingField === name}
                 className="mt-2 w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 text-sm font-semibold hover:from-emerald-600 hover:to-teal-600 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                {improvingField === name ? "Improving with AI..." : `✨ AI Improve ${label}`}
+                {improvingField === name
+                  ? "Improving with AI..."
+                  : `✨ AI Improve ${label}`}
               </button>
             )}
           </div>
@@ -333,8 +365,8 @@ function ResumeForm({
             {resumeData.template === "template4" && !isPro
               ? "Unlock Premium Download"
               : mode === "improve"
-              ? "Download Improved Resume"
-              : "Download Resume as PDF"}
+                ? "Download Improved Resume"
+                : "Download Resume as PDF"}
           </button>
 
           {handleDownloadWord && (

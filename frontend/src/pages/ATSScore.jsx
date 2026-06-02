@@ -27,80 +27,95 @@ const ATSScore = ({ setCurrentPage, setAtsScores }) => {
 
   const extractTextFromPDF = async (file) => {
     try {
-      const pdfjsLib = await import("pdfjs-dist")
+      const pdfjsLib = await import("pdfjs-dist");
       pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
         "pdfjs-dist/build/pdf.worker.min.mjs",
-        import.meta.url
-      ).toString()
-      const arrayBuffer = await file.arrayBuffer()
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise
-      let fullText = ""
+        import.meta.url,
+      ).toString();
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      let fullText = "";
       for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i)
-        const textContent = await page.getTextContent()
-        const pageText = textContent.items.map(item => item.str).join(" ")
-        fullText += pageText + "\n"
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map((item) => item.str).join(" ");
+        fullText += pageText + "\n";
       }
-      return fullText.trim()
+      return fullText.trim();
     } catch (err) {
-      const data = await file.arrayBuffer()
-      const uint8array = new Uint8Array(data)
-      let str = ""
+      const data = await file.arrayBuffer();
+      const uint8array = new Uint8Array(data);
+      let str = "";
       for (let i = 0; i < uint8array.length; i++) {
-        str += String.fromCharCode(uint8array[i])
+        str += String.fromCharCode(uint8array[i]);
       }
-      const matches = str.match(/BT[\s\S]*?ET/g) || []
-      let extractedText = ""
+      const matches = str.match(/BT[\s\S]*?ET/g) || [];
+      let extractedText = "";
       matches.forEach((block) => {
-        const parts = block.match(/\(([^)]+)\)/g) || []
-        parts.forEach((part) => { extractedText += part.slice(1, -1) + " " })
-      })
+        const parts = block.match(/\(([^)]+)\)/g) || [];
+        parts.forEach((part) => {
+          extractedText += part.slice(1, -1) + " ";
+        });
+      });
       return extractedText.trim().length > 0
         ? extractedText
-        : str.replace(/[^a-zA-Z0-9\s.,@:/+-]/g, " ").trim()
+        : str.replace(/[^a-zA-Z0-9\s.,@:/+-]/g, " ").trim();
     }
   };
 
   const extractText = async (file) => {
-    if (!file) return ""
-    if (file.type === "text/plain") return await file.text()
-    if (file.type === "application/pdf") return await extractTextFromPDF(file)
+    if (!file) return "";
+    if (file.type === "text/plain") return await file.text();
+    if (file.type === "application/pdf") return await extractTextFromPDF(file);
     if (file.type.startsWith("image/")) {
       try {
-        setExtracting(true)
+        setExtracting(true);
         const base64 = await new Promise((resolve) => {
-          const reader = new FileReader()
-          reader.onload = () => resolve(reader.result.split(",")[1])
-          reader.readAsDataURL(file)
-        })
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result.split(",")[1]);
+          reader.readAsDataURL(file);
+        });
+        const response = await fetch(
+          "https://api.groq.com/openai/v1/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "llama-3.2-11b-vision-preview",
+              messages: [
+                {
+                  role: "user",
+                  content: [
+                    {
+                      type: "image_url",
+                      image_url: { url: `data:${file.type};base64,${base64}` },
+                    },
+                    {
+                      type: "text",
+                      text: "Extract all text from this resume image exactly as written. Return only the extracted text, nothing else.",
+                    },
+                  ],
+                },
+              ],
+              max_tokens: 1000,
+            }),
           },
-          body: JSON.stringify({
-            model: "llama-3.2-11b-vision-preview",
-            messages: [{
-              role: "user",
-              content: [
-                { type: "image_url", image_url: { url: `data:${file.type};base64,${base64}` }},
-                { type: "text", text: "Extract all text from this resume image exactly as written. Return only the extracted text, nothing else." }
-              ]
-            }],
-            max_tokens: 1000
-          })
-        })
-        const data = await response.json()
-        return data.choices[0].message.content
+        );
+        const data = await response.json();
+        return data.choices[0].message.content;
       } catch (err) {
-        alert("Image extraction failed. Please paste your resume text manually.")
-        return ""
+        alert(
+          "Image extraction failed. Please paste your resume text manually.",
+        );
+        return "";
       } finally {
-        setExtracting(false)
+        setExtracting(false);
       }
     }
-    return ""
+    return "";
   };
 
   const calculateATSScore = async () => {
@@ -145,13 +160,13 @@ const ATSScore = ({ setCurrentPage, setAtsScores }) => {
       .toLowerCase()
       .replace(/[^a-zA-Z0-9\s]/g, " ")
       .split(/\s+/)
-      .filter((word) => word.length > 3 && !stopWords.includes(word));
+      .filter((word) => word.length > 2 && !stopWords.includes(word));
 
     const uniqueResumeWords = [...new Set(resumeWords)];
     const uniqueJobWords = [...new Set(jobWords)];
 
     const matched = uniqueJobWords.filter((word) =>
-      uniqueResumeWords.includes(word)
+      uniqueResumeWords.includes(word),
     );
 
     const missing = uniqueJobWords
@@ -169,24 +184,30 @@ const ATSScore = ({ setCurrentPage, setAtsScores }) => {
 
     if (finalScore >= 75) {
       setAnalysis(
-        "Excellent match! Your resume contains many important keywords from the job description."
+        "Excellent match! Your resume contains many important keywords from the job description.",
       );
     } else if (finalScore >= 50) {
       setAnalysis(
-        "Good match, but you can improve your resume by adding more missing job-related keywords."
+        "Good match, but you can improve your resume by adding more missing job-related keywords.",
       );
     } else {
       setAnalysis(
-        "Your resume needs improvement. Add more relevant skills, tools, and keywords from the job description."
+        "Your resume needs improvement. Add more relevant skills, tools, and keywords from the job description.",
       );
     }
 
     if (finalScore < 50) {
-      setImprovement(`Your resume is missing many key terms. Add these missing keywords naturally into your experience and skills sections: ${missing.slice(0, 5).join(", ")}`)
+      setImprovement(
+        `Your resume is missing many key terms. Add these missing keywords naturally into your experience and skills sections: ${missing.slice(0, 5).join(", ")}`,
+      );
     } else if (finalScore < 75) {
-      setImprovement(`Good match! Strengthen your resume by adding these keywords: ${missing.slice(0, 3).join(", ")}`)
+      setImprovement(
+        `Good match! Strengthen your resume by adding these keywords: ${missing.slice(0, 3).join(", ")}`,
+      );
     } else {
-      setImprovement("Excellent match! Your resume is well optimized for this job.")
+      setImprovement(
+        "Excellent match! Your resume is well optimized for this job.",
+      );
     }
 
     if (setAtsScores) {
@@ -209,14 +230,14 @@ const ATSScore = ({ setCurrentPage, setAtsScores }) => {
 
       <Navbar setCurrentPage={setCurrentPage} />
       <div className="mb-8">
-  <button
-    onClick={() => setCurrentPage("builder")}
-    className="inline-flex items-center gap-2 rounded-xl px-1 py-2 text-sm font-bold text-slate-600 hover:text-purple-700 transition-all duration-300"
-  >
-    <ChevronLeft className="h-5 w-5" />
-    Back
-  </button>
-</div>
+        <button
+          onClick={() => setCurrentPage("builder")}
+          className="inline-flex items-center gap-2 rounded-xl px-1 py-2 text-sm font-bold text-slate-600 hover:text-purple-700 transition-all duration-300"
+        >
+          <ChevronLeft className="h-5 w-5" />
+          Back
+        </button>
+      </div>
       <main className="relative z-10 max-w-7xl mx-auto px-6 py-12">
         <section className="mb-10">
           <div className="inline-flex items-center gap-2 rounded-full bg-purple-100 px-4 py-2 text-sm font-bold text-purple-700 mb-5">
@@ -464,9 +485,13 @@ const ATSScore = ({ setCurrentPage, setAtsScores }) => {
                       <div className="rounded-2xl bg-blue-50 p-4">
                         <div className="flex items-center gap-2 mb-2">
                           <Sparkles className="h-5 w-5 text-blue-600" />
-                          <p className="font-bold text-blue-700">How to Improve</p>
+                          <p className="font-bold text-blue-700">
+                            How to Improve
+                          </p>
                         </div>
-                        <p className="text-sm text-slate-600 leading-relaxed">{improvement}</p>
+                        <p className="text-sm text-slate-600 leading-relaxed">
+                          {improvement}
+                        </p>
                       </div>
                     )}
                   </div>
