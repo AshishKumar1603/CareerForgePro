@@ -33,7 +33,7 @@ const Pricing = ({ setCurrentPage, isPro, upgradeToPro }) => {
       badge: "Get Started",
       description: "Perfect for students starting their resume journey.",
       features: [
-        "Create 1 resume",
+        "Create 3 resume",
         "JD Analysis (basic)",
         "ATS Score check",
         "Basic cover letter",
@@ -43,7 +43,7 @@ const Pricing = ({ setCurrentPage, isPro, upgradeToPro }) => {
     },
     {
       name: "Pro",
-      price: "9.99",
+      price: "5.99",
       period: "per month",
       icon: Star,
       emoji: "⭐",
