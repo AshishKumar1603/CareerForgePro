@@ -516,46 +516,18 @@ function ResumeForm({
   };
 
   const inputClass =
-    "w-full border border-slate-800 bg-slate-900/60 p-3 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-slate-100 placeholder-slate-500 text-sm shadow-inner";
+    "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-3 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-sky-500 dark:focus:ring-sky-400 transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 shadow-sm text-sm";
 
-  const textareaClass = `${inputClass} resize-vertical min-h-[100px] leading-relaxed`;
-
-  const sectionsConfig = [
-    {
-      name: "skills",
-      label: "Professional Skills",
-      placeholder: "React, Node.js, Cloud Architectures, Python...",
-    },
-    {
-      name: "experience",
-      label: "Work Experience",
-      placeholder:
-        "Company Name — Role (Year)\n• Bullet point out core metric impact achievements...",
-    },
-    {
-      name: "projects",
-      label: "Projects & Innovations",
-      placeholder:
-        "Project Name — Tech Stack\n• Explain problem statements and solution architectures...",
-    },
-    {
-      name: "certifications",
-      label: "Education & Credentials",
-      placeholder:
-        "Degree/Certification — Institute (Timeline)\n• Relevant scholastic honors or scores...",
-    },
-  ];
+  const textareaClass = `${inputClass} resize-vertical h-24`;
 
   return (
-    <div className="bg-slate-900/40 rounded-3xl p-6 backdrop-blur-md border border-slate-900 shadow-xl space-y-6">
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
-        <h2 className="text-xl font-bold text-slate-100 flex items-center gap-2">
-          <FileText className="w-5 h-5 text-indigo-400" /> Resume Parameters
-        </h2>
-        <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-950 border border-slate-800 text-slate-400 uppercase tracking-widest">
-          {mode} Mode
-        </span>
-      </div>
+    <div className="bg-white/90 dark:bg-gray-800/90 rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-300 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
+      <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
+        Resume Details
+      </h2>
+      <p className="text-sm text-gray-600 dark:text-gray-300 mb-5 italic">
+        Professionally improved by CareerForge AI
+      </p>
 
       <div className="space-y-4">
         {mode === "improve" && (
@@ -563,6 +535,74 @@ function ResumeForm({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             className="rounded-2xl border border-indigo-500/20 bg-indigo-500/5 p-5 space-y-3"
+          <div className="space-y-3">
+            <div className="rounded-3xl border border-slate-200/70 dark:border-slate-700/50 bg-slate-50/80 dark:bg-slate-900/20 p-5 shadow-sm">
+              <p className="text-sm text-gray-700 dark:text-gray-200 mb-3">
+                Paste your full resume below and CareerForge AI will extract and
+                improve all fields automatically.
+              </p>
+              <textarea
+                rows="6"
+                placeholder="Paste your full resume text here..."
+                value={pastedResume}
+                onChange={(e) => setPastedResume(e.target.value)}
+                className={`${textareaClass} h-auto`}
+              />
+              <button
+                type="button"
+                onClick={handleImproveResume}
+                disabled={extracting}
+                className="mt-3 w-full rounded-xl bg-gradient-to-r from-sky-600 to-sky-700 text-white px-4 py-2.5 text-sm font-semibold hover:from-sky-700 hover:to-sky-800 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {extracting ? (
+                  <>
+                    <svg
+                      className="animate-spin h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8z"
+                      />
+                    </svg>
+                    Improving with AI...
+                  </>
+                ) : extracted ? (
+                  "✅ Improved! Paste again to re-improve"
+                ) : (
+                    "✨ Professionally Improve Resume"
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Template Selector */}
+        <div>
+          <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wide">
+            Template{" "}
+            {isPro && (
+              <span className="ml-2 px-1.5 py-0.5 rounded text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 font-bold">
+                PRO
+              </span>
+            )}
+          </label>
+
+          <select
+            name="template"
+            value={resumeData.template}
+            onChange={handleChange}
+            className={inputClass}
           >
             <p className="text-xs font-medium text-indigo-300 leading-relaxed flex items-center gap-1.5">
               <Sparkles className="w-4 h-4 shrink-0" /> Copilot Text Extractor
@@ -631,26 +671,19 @@ function ResumeForm({
             )}
           </div>
 
-          {/* Profile Picture Upload Section */}
-          <div>
-            <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">
-              Avatar Identity Vector
-            </label>
-            <div className="relative">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  if (file) {
-                    const imageURL = URL.createObjectURL(file);
-                    setResumeData({ ...resumeData, profilePic: imageURL });
-                  }
-                }}
-                className="w-full border border-slate-800 bg-slate-900/60 p-2 rounded-xl text-slate-400 text-xs file:mr-3 file:py-1 file:px-2.5 file:rounded-md file:border-0 file:text-[11px] file:font-bold file:bg-indigo-500/10 file:text-indigo-400 hover:file:bg-indigo-500/20 cursor-pointer focus:outline-none"
-              />
-            </div>
-          </div>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files[0];
+
+              if (file) {
+                const imageURL = URL.createObjectURL(file);
+                setResumeData({ ...resumeData, profilePic: imageURL });
+              }
+            }}
+            className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-2.5 rounded-xl text-gray-900 dark:text-white text-xs file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 dark:file:bg-sky-900/40 dark:file:text-sky-300 cursor-pointer"
+          />
         </div>
 
         {/* Identity Context Inputs */}
@@ -739,24 +772,19 @@ function ResumeForm({
               onChange={handleChange}
               className={textareaClass}
             />
-            <button
-              type="button"
-              onClick={() => handleAIImprove(name, resumeData[name])}
-              disabled={improvingField === name}
-              className="w-full rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:text-indigo-400 hover:border-slate-700 px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
-            >
-              {improvingField === name ? (
-                <>
-                  <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-400" />
-                  Calibrating Text Synthetics...
-                </>
-              ) : (
-                <>
-                  <Sparkle className="w-3.5 h-3.5 text-indigo-400" />
-                  Optimize {label} with AI
-                </>
-              )}
-            </button>
+
+            {(name === "skills" || name === "experience") && (
+              <button
+                type="button"
+                onClick={() => handleAIImprove(name, resumeData[name])}
+                disabled={improvingField === name}
+                className="mt-2 w-full rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 text-white px-4 py-2 text-sm font-semibold hover:from-sky-600 hover:to-sky-700 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {improvingField === name
+                  ? "Improving with AI..."
+                  : `✨ Professionally Improve ${label}`}
+              </button>
+            )}
           </div>
         ))}
 
@@ -765,7 +793,7 @@ function ResumeForm({
           <button
             type="button"
             onClick={handleDownloadClick}
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-3.5 rounded-xl text-xs font-black tracking-wider uppercase transition-all shadow-lg hover:opacity-95 flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white px-6 py-3.5 rounded-xl font-semibold hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-md text-sm"
           >
             <FileText className="w-4 h-4" />
             {resumeData.template === "template4" && !isPro
@@ -779,7 +807,7 @@ function ResumeForm({
             <button
               type="button"
               onClick={handleDownloadWord}
-              className="w-full border border-slate-800 bg-slate-950 text-slate-300 px-5 py-3.5 rounded-xl text-xs font-bold tracking-wider uppercase hover:bg-slate-900 hover:text-slate-100 transition-all flex items-center justify-center gap-2"
+              className="w-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/20 text-sky-700 dark:text-sky-300 px-6 py-3.5 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-900/30 transition-all duration-300 text-sm"
             >
               <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
               Download MS Word Object Document

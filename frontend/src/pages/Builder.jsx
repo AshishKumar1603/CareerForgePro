@@ -226,38 +226,35 @@ const steps = [
   },
   {
     title: "Improve Resume",
-    desc: "AI rewrites your content",
-    icon: Sparkles,
-    gradient: "from-amber-500 to-orange-500",
-    bg: "from-amber-500/5 to-orange-500/5 dark:from-amber-900/10 dark:to-orange-900/10",
-    border: "border-amber-200/60 dark:border-amber-800/40",
+    return (
+      <motion.div
+        className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 transition-all duration-300 text-slate-200"
+    bg: "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
+    border: "border-amber-200 dark:border-amber-700/50",
     page: "improve-resume",
-    pro: true,
-  },
-  {
+        <Navbar onBack={() => setCurrentPage("home")} showBack />
+
+        <div className="px-4 sm:px-10 py-12">
     title: "Check ATS Score",
     desc: "See how well your resume matches",
     icon: BarChart3,
     gradient: "from-emerald-500 to-teal-500",
-    bg: "from-emerald-500/5 to-teal-500/5 dark:from-emerald-900/10 dark:to-teal-900/10",
-    border: "border-emerald-200/60 dark:border-emerald-800/40",
-    page: "ats-score",
-    pro: false,
-  },
-  {
-    title: "Generate Cover Letter",
-    desc: "Create a matching cover letter",
-    icon: Mail,
-    gradient: "from-pink-500 to-rose-500",
-    bg: "from-pink-500/5 to-rose-500/5 dark:from-pink-900/10 dark:to-pink-900/10",
-    border: "border-pink-200/60 dark:border-pink-800/40",
-    page: "cover-letter",
-    pro: true,
+    bg: "from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20",
+    border: "border-emerald-200 dark:border-emerald-700/50",
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/6 text-purple-300 text-sm font-medium mb-4">
+              Workspace
+            </span>
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-white mb-3 leading-tight">
+              CareerForge <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-fuchsia-300">Workspace</span>
+            </h1>
+            <p className="text-slate-300 text-lg max-w-xl mx-auto">
+              Build your career documents step by step with polished tools and AI assistance
+            </p>
   },
   {
     title: "My Dashboard",
     desc: "View and manage saved resumes",
-    icon: LayoutDashboard,
+                className={`cursor-pointer rounded-3xl p-6 sm:p-7 shadow-2xl transition-all duration-300 group relative overflow-hidden ${step.pro && !isPro ? 'opacity-70' : 'bg-gradient-to-br from-white/3 to-white/2'}`}
     gradient: "from-indigo-500 to-violet-500",
     bg: "from-indigo-500/5 to-violet-500/5 dark:from-indigo-900/10 dark:to-indigo-900/10",
     border: "border-indigo-200/60 dark:border-indigo-800/40",
@@ -275,7 +272,7 @@ const steps = [
     pro: false,
   },
 ];
-
+                <div className="absolute top-4 right-4 w-6 h-6 rounded-full bg-white/6 flex items-center justify-center text-xs font-bold text-slate-300">
 function Builder({ setCurrentPage, isPro }) {
   const [selectedStep, setSelectedStep] = useState("");
 
@@ -302,8 +299,8 @@ function Builder({ setCurrentPage, isPro }) {
   };
 
   return (
-    <motion.div
-      className="min-h-[calc(100vh-68px)] bg-slate-950 px-4 sm:px-10 py-12 text-slate-100"
+                  className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${step.gradient} flex items-center justify-center text-2xl mb-5 shadow-lg text-white`}
+      className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50/40 to-violet-100 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-all duration-300"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
@@ -313,17 +310,17 @@ function Builder({ setCurrentPage, isPro }) {
       <div className="max-w-7xl mx-auto">
         {/* Header Block Section */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+                    <span className="inline-block px-2 py-1 rounded-full bg-amber-500/80 text-white text-xs font-semibold shadow-sm">
+                      PRO
+                    </span>
+          transition={{ duration: 0.6 }}
         >
-          <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-4">
-            <Sparkles className="w-3.5 h-3.5" /> Workspace Hub
+          <span className="inline-block px-4 py-1.5 rounded-full bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 text-sm font-medium mb-4">
+                <h3 className="text-lg font-semibold text-white mb-2 leading-tight">
           </span>
-          <h1 className="text-3xl sm:text-5xl font-black text-slate-100 mb-4 tracking-tight">
-            CareerForge{" "}
-            <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+                <p className="text-sm text-slate-300 leading-relaxed">
+            <span className="bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent">
               Workspace
             </span>
           </h1>
@@ -398,15 +395,15 @@ function Builder({ setCurrentPage, isPro }) {
         {/* Coming Soon Drawer Element */}
         {selectedStep && (
           <motion.div
-            className="mt-12 bg-slate-900/60 border border-slate-800/80 rounded-2xl p-6 shadow-xl backdrop-blur-md"
-            initial={{ opacity: 0, y: 10 }}
+            className="mt-10 max-w-7xl mx-auto bg-white/5 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border border-white/6"
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h2 className="text-xl font-bold mb-1 text-slate-100">
+            <h2 className="text-2xl font-bold mb-2 text-white">
               {selectedStep}
             </h2>
-            <p className="text-sm text-indigo-400 font-medium">
-              This feature module is running pipeline checks. Launching soon! 🚀
+            <p className="text-slate-300">
+              This feature is coming soon. Stay tuned! 🚀
             </p>
           </motion.div>
         )}

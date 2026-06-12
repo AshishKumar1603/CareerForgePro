@@ -26,7 +26,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
   const sectionTitle =
     "text-sm font-bold uppercase tracking-widest mb-2 pb-1 border-b-2";
   const sectionText =
-    "text-sm text-gray-600 whitespace-pre-line leading-relaxed";
+    "text-sm text-slate-600 whitespace-pre-line leading-relaxed";
 
   // ── TEMPLATE 2: Sidebar ──
   if (template === "template2") {
@@ -36,7 +36,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
         className="w-full max-w-full bg-white mx-auto overflow-hidden"
       >
         <div className="flex flex-col lg:flex-row gap-6 min-h-full max-w-full">
-          <div className="w-full lg:w-[200px] bg-gradient-to-b from-fuchsia-600 to-violet-700 text-white p-4 lg:p-6 flex flex-col gap-5">
+          <div className="w-full lg:w-[200px] bg-gradient-to-b from-sky-600 to-sky-700 text-white p-4 lg:p-6 flex flex-col gap-5">
             {profilePic && (
               <img
                 src={profilePic}
@@ -49,11 +49,11 @@ function ResumePreview({ resumeData, mode = "create" }) {
               <h1 className="text-base lg:text-lg font-bold leading-tight">
                 {N}
               </h1>
-              <p className="text-xs text-fuchsia-200 mt-1">{R}</p>
+              <p className="text-xs text-sky-200 mt-1">{R}</p>
             </div>
 
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-fuchsia-200 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-sky-200 mb-2">
                 Contact
               </p>
               <p className="text-xs mb-1 break-all">{E}</p>
@@ -62,7 +62,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
             </div>
 
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-fuchsia-200 mb-2">
+              <p className="text-xs font-bold uppercase tracking-widest text-sky-200 mb-2">
                 Skills
               </p>
               <p className="text-xs whitespace-pre-line leading-relaxed">
@@ -129,6 +129,8 @@ function ResumePreview({ resumeData, mode = "create" }) {
               </h1>
               <p className="text-sm text-slate-500 mt-0.5">{R}</p>
 
+              <p className="text-sm text-slate-400 italic mt-2">Professionally improved by CareerForge AI</p>
+
               <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
                 <span className="text-xs text-slate-400">{E}</span>
                 <span className="text-xs text-slate-400">{P}</span>
@@ -187,8 +189,8 @@ function ResumePreview({ resumeData, mode = "create" }) {
         className="w-full max-w-full bg-white mx-auto overflow-hidden text-slate-900"
       >
         <div className="relative bg-slate-950 text-white overflow-hidden">
-          <div className="absolute top-0 right-0 w-56 h-56 bg-violet-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 left-0 w-52 h-52 bg-fuchsia-500/20 rounded-full blur-3xl" />
+          <div className="absolute top-0 right-0 w-56 h-56 bg-sky-500/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 left-0 w-52 h-52 bg-sky-400/20 rounded-full blur-3xl" />
 
           <div className="relative p-5 lg:p-8">
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
@@ -201,7 +203,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
               )}
 
               <div className="flex-1">
-                <p className="text-xs uppercase tracking-[0.3em] text-violet-300 mb-2">
+                <p className="text-xs uppercase tracking-[0.3em] text-sky-300 mb-2">
                   Professional Resume
                 </p>
 
@@ -209,7 +211,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
                   {N}
                 </h1>
 
-                <p className="mt-2 text-sm lg:text-base text-violet-100 font-medium">
+                <p className="mt-2 text-sm lg:text-base text-sky-100 font-medium">
                   {R}
                 </p>
 
@@ -226,7 +228,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
         <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.4fr] gap-0">
           <div className="bg-slate-50 p-5 lg:p-7 border-r border-slate-100">
             <div className="mb-6">
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-violet-700 mb-3">
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-sky-700 mb-3">
                 Core Skills
               </p>
 
@@ -236,7 +238,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
                   .map((skill, index) => (
                     <span
                       key={index}
-                      className="rounded-full bg-white border border-violet-100 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm"
+                      className="rounded-full bg-white border border-sky-100 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm"
                     >
                       {skill.trim()}
                     </span>
@@ -245,7 +247,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
             </div>
 
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-violet-700 mb-3">
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-sky-700 mb-3">
                 Education & Certifications
               </p>
 
@@ -257,8 +259,8 @@ function ResumePreview({ resumeData, mode = "create" }) {
 
               <div className="p-5 lg:p-8 space-y-7">
             <div className="break-inside-avoid">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="h-8 w-1.5 rounded-full bg-gradient-to-b from-violet-600 to-fuchsia-500" />
+                <div className="flex items-center gap-3 mb-3">
+                <div className="h-8 w-1.5 rounded-full bg-gradient-to-b from-sky-600 to-sky-700" />
                 <p className="text-sm font-black uppercase tracking-[0.25em] text-slate-800">
                   Experience
                 </p>
@@ -271,7 +273,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
 
             <div className="break-inside-avoid">
               <div className="flex items-center gap-3 mb-3">
-                <div className="h-8 w-1.5 rounded-full bg-gradient-to-b from-violet-600 to-fuchsia-500" />
+                <div className="h-8 w-1.5 rounded-full bg-gradient-to-b from-sky-600 to-sky-700" />
                 <p className="text-sm font-black uppercase tracking-[0.25em] text-slate-800">
                   Projects & Achievements
                 </p>
@@ -282,8 +284,8 @@ function ResumePreview({ resumeData, mode = "create" }) {
               </p>
             </div>
 
-            <div className="rounded-3xl bg-gradient-to-r from-violet-50 to-fuchsia-50 p-5 border border-violet-100">
-              <p className="text-xs font-black uppercase tracking-[0.25em] text-violet-700 mb-2">
+            <div className="rounded-3xl bg-gradient-to-r from-slate-50 to-slate-50 p-5 border border-slate-100">
+              <p className="text-xs font-black uppercase tracking-[0.25em] text-sky-700 mb-2">
                 Career Summary
               </p>
 
@@ -305,7 +307,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
       id="resume-preview"
       className="w-full max-w-full bg-white overflow-hidden"
     >
-      <div className="bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white p-4 lg:p-7">
+      <div className="bg-gradient-to-r from-sky-600 to-sky-700 text-white p-4 lg:p-7">
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5">
           {profilePic && (
             <img
@@ -317,7 +319,7 @@ function ResumePreview({ resumeData, mode = "create" }) {
 
           <div>
             <h1 className="text-xl sm:text-2xl font-bold">{N}</h1>
-            <p className="text-fuchsia-100 text-sm mt-0.5">{R}</p>
+            <p className="text-sky-100 text-sm mt-0.5">{R}</p>
 
             <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
               <span className="text-xs text-white/80">{E}</span>
@@ -329,30 +331,30 @@ function ResumePreview({ resumeData, mode = "create" }) {
         </div>
       </div>
 
-      <div className="p-4 lg:p-7 space-y-5">
+          <div className="p-4 lg:p-7 space-y-5">
         <div>
-          <p className={`${sectionTitle} text-violet-700 border-violet-200`}>
+          <p className={`${sectionTitle} text-sky-700 border-sky-200`}>
             Skills
           </p>
           <p className={sectionText}>{SK}</p>
         </div>
 
         <div>
-          <p className={`${sectionTitle} text-violet-700 border-violet-200`}>
+          <p className={`${sectionTitle} text-sky-700 border-sky-200`}>
             Experience
           </p>
           <p className={sectionText}>{EX}</p>
         </div>
 
         <div>
-          <p className={`${sectionTitle} text-violet-700 border-violet-200`}>
+          <p className={`${sectionTitle} text-sky-700 border-sky-200`}>
             Projects & Achievements
           </p>
           <p className={sectionText}>{PR}</p>
         </div>
 
         <div>
-          <p className={`${sectionTitle} text-violet-700 border-violet-200`}>
+          <p className={`${sectionTitle} text-sky-700 border-sky-200`}>
             Education & Certifications
           </p>
           <p className={sectionText}>{CE}</p>

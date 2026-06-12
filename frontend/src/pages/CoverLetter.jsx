@@ -292,95 +292,134 @@ Structural Rules:
   const textareaClass = `${inputClass} resize-y min-h-[160px] leading-relaxed`;
 
   return (
-    <div className="min-h-[calc(100vh-68px)] bg-slate-950 text-slate-100 px-4 sm:px-8 py-10 relative overflow-hidden selection:bg-indigo-500/30">
-      {/* Background Ambience Shaders */}
-      <div className="absolute top-28 left-1/3 h-96 w-96 rounded-full bg-indigo-500/5 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-20 right-20 h-80 w-80 rounded-full bg-pink-500/5 blur-[100px] pointer-events-none" />
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(139,92,246,0.15),_transparent_25%),radial-gradient(circle_at_bottom_right,_rgba(236,72,153,0.12),_transparent_30%),#f8fafc] dark:bg-slate-950 transition-all duration-300">
+      <Navbar onBack={() => setCurrentPage("builder")} showBack />
 
-      {/* Local Navbar is removed. Handled centrally via App.jsx global wrapper layout */}
-
-      <div className="max-w-6xl mx-auto space-y-6 relative z-10">
-        <div>
-          <button
-            onClick={() => setCurrentPage("builder")}
-            className="inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-xs font-bold text-slate-400 border border-slate-900 bg-slate-900/40 hover:text-indigo-400 hover:border-slate-800 transition-all duration-200"
-          >
-            <ChevronLeft className="h-3.5 w-3.5" /> Back to Matrix
-          </button>
-        </div>
-
-        {/* Header Block Section */}
-        <header className="bg-slate-900/20 border border-slate-900 rounded-3xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-1.5 rounded-md bg-pink-500/10 border border-pink-500/20 px-2.5 py-0.5 text-xs font-bold text-pink-400">
-              <Sparkles className="h-3.5 w-3.5" /> AI Synthesis Module
-            </div>
-            <h1 className="text-3xl font-black tracking-tight text-slate-100">
-              Cover Letter Constructor
-            </h1>
-            <p className="text-xs text-slate-400 max-w-xl">
-              Construct professional tailored introduction documents matching
-              core keywords constraints automatically.
-            </p>
-          </div>
-        </header>
-
-        {/* Structural Ingestion splits */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-          {/* Left Form Parameter Matrix */}
-          <div className="lg:col-span-2 space-y-4 bg-slate-900/40 border border-slate-900 rounded-3xl p-6 shadow-xl">
-            <div className="border-b border-slate-800/80 pb-3 mb-5">
-              <h2 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                <ScrollText className="w-4 h-4 text-pink-400" /> Identity
-                Parameter Settings
-              </h2>
-              <p className="text-[11px] text-slate-500 mt-0.5">
-                Define criteria limits.
+      <div className="px-4 sm:px-8 py-10 max-w-7xl mx-auto">
+        <div className="rounded-[2rem] border border-violet-200/60 dark:border-violet-500/30 bg-white/95 dark:bg-slate-900/95 shadow-[0_30px_80px_rgba(99,102,241,0.1)] backdrop-blur-xl p-8 mb-10">
+          <div className="md:flex md:items-center md:justify-between gap-8">
+            <div className="max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.4em] font-semibold text-violet-600 dark:text-violet-300">
+                Cover Letter Builder
+              </p>
+              <h1 className="mt-4 text-3xl sm:text-4xl font-semibold text-slate-900 dark:text-white">
+                Write a polished cover letter in seconds
+              </h1>
+              <p className="mt-4 text-base text-slate-600 dark:text-slate-300 leading-7">
+                Enter your details, paste the job description, and generate a concise, tailored cover letter with a confident professional tone.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest flex items-center gap-1">
-                  <User className="w-3 h-3 text-indigo-400" /> Professional
-                  Identity Name
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="rounded-3xl bg-violet-600/10 dark:bg-violet-500/10 p-5 border border-violet-200/70 dark:border-violet-500/40">
+                <p className="text-xs uppercase tracking-[0.3em] font-semibold text-violet-700 dark:text-violet-200">
+                  Fast results
+                </p>
+                <p className="mt-3 text-sm font-semibold text-slate-900 dark:text-white">
+                  Tailored letter with strong structure and clear tone.
+                </p>
+              </div>
+              <div className="rounded-3xl bg-slate-100/90 dark:bg-slate-800/90 p-5 border border-slate-200/70 dark:border-slate-700/60">
+                <p className="text-xs uppercase tracking-[0.3em] font-semibold text-slate-500 dark:text-slate-400">
+                  Save & reuse
+                </p>
+                <p className="mt-3 text-sm font-semibold text-slate-900 dark:text-white">
+                  Store your best letters in the dashboard with one click.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 xl:grid-cols-[1.7fr_1fr] gap-8">
+          <div className="space-y-6">
+            <div className="rounded-[2rem] bg-white/95 dark:bg-slate-900/95 border border-slate-200/70 dark:border-slate-700/70 shadow-xl p-8">
+              <div className="flex items-center justify-between gap-4 mb-8">
+                <div>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-white">
+                    Your information
+                  </h2>
+                  <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+                    Complete all fields to generate a letter that reflects your experience and the role.
+                  </p>
+                </div>
+                <div className="rounded-3xl bg-violet-100 dark:bg-violet-900/30 px-4 py-2 text-sm font-semibold text-violet-700 dark:text-violet-200">
+                  3 paragraph output
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                    Your Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="John Doe"
+                    value={yourName}
+                    onChange={(e) => setYourName(e.target.value)}
+                    className="w-full rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-3 outline-none focus:ring-2 focus:ring-violet-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                    Position Title
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Software Engineer"
+                    value={position}
+                    onChange={(e) => setPosition(e.target.value)}
+                    className="w-full rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-3 outline-none focus:ring-2 focus:ring-violet-500"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                  Company Name
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., John Doe"
-                  value={yourName}
-                  onChange={(e) => setYourName(e.target.value)}
-                  className={inputClass}
+                  placeholder="Google, Microsoft, Amazon"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  className="w-full rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-3 outline-none focus:ring-2 focus:ring-violet-500"
                 />
               </div>
 
-              <div>
-                <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest flex items-center gap-1">
-                  <Briefcase className="w-3 h-3 text-indigo-400" /> Target
-                  Designation Title
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-slate-900 dark:text-slate-100 mb-2">
+                  Job Description
                 </label>
-                <input
-                  type="text"
-                  placeholder="e.g., Software Architect"
-                  value={position}
-                  onChange={(e) => setPosition(e.target.value)}
-                  className={inputClass}
+                <textarea
+                  rows="8"
+                  placeholder="Paste the job description here..."
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  className="w-full rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-4 outline-none focus:ring-2 focus:ring-violet-500"
                 />
               </div>
             </div>
 
-            <div>
-              <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest flex items-center gap-1">
-                <Building className="w-3 h-3 text-indigo-400" /> Enterprise
-                Destination Name
-              </label>
-              <input
-                type="text"
-                placeholder="e.g., Tesla Inc."
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                className={inputClass}
-              />
+              <button
+                onClick={handleGenerateLetter}
+                disabled={loading}
+                className="w-full inline-flex items-center justify-center gap-3 rounded-3xl bg-violet-600 text-white px-6 py-3 font-semibold shadow-lg shadow-violet-500/20 hover:bg-violet-700 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                {loading ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                    </svg>
+                    Generating...
+                  </>
+                ) : (
+                  "Generate Cover Letter"
+                )}
+              </button>
             </div>
 
             <div>
@@ -415,43 +454,44 @@ Structural Rules:
             </button>
           </div>
 
-          {/* Right Preview Output Frame */}
-          <div className="bg-slate-900/40 border border-slate-900 rounded-3xl p-6 shadow-xl sticky top-24 space-y-4">
-            <div className="border-b border-slate-800/80 pb-3">
-              <h2 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                <FileCheck className="w-4 h-4 text-emerald-400" /> Virtual Sheet
-                Preview
+          <div className="space-y-6">
+            <div className="rounded-[2rem] bg-white/95 dark:bg-slate-900/95 border border-slate-200/70 dark:border-slate-700/70 shadow-xl p-8 sticky top-6">
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-4">
+                Letter preview
               </h2>
-              <p className="text-[11px] text-slate-500 mt-0.5 font-medium">
-                Synthesized draft preview sheet.
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+                Your generated cover letter will appear here. Review and save it to your dashboard once ready.
               </p>
+
+              {generatedLetter ? (
+                <div>
+                  <div className="bg-slate-50 dark:bg-slate-950/80 rounded-3xl p-5 mb-6 max-h-[26rem] overflow-y-auto text-sm leading-7 text-slate-800 dark:text-slate-100 whitespace-pre-line border border-slate-200/70 dark:border-slate-700/70">
+                    {generatedLetter}
+                  </div>
+                  <button
+                    onClick={handleSaveToDashboard}
+                    className="w-full rounded-3xl border border-violet-500/70 bg-violet-50 text-violet-700 font-semibold px-5 py-3 hover:bg-violet-100 transition-all active:scale-[0.98]"
+                  >
+                    Save to Dashboard
+                  </button>
+                </div>
+              ) : (
+                <div className="rounded-3xl border border-dashed border-slate-200 dark:border-slate-700/70 bg-slate-50 dark:bg-slate-950/60 p-6 text-center text-sm text-slate-500 dark:text-slate-400">
+                  Fill in all fields and click "Generate Cover Letter" to preview your custom letter.
+                </div>
+              )}
             </div>
 
-            {generatedLetter ? (
-              <div className="space-y-4">
-                <div className="bg-slate-950/80 border border-slate-900 rounded-xl p-4 max-h-[380px] overflow-y-auto text-xs text-slate-300 font-medium whitespace-pre-line leading-relaxed scrollbar-thin">
-                  {generatedLetter}
-                </div>
-
-                <button
-                  onClick={handleSaveToDashboard}
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:text-indigo-400 hover:border-slate-700 px-4 py-3 text-xs font-bold transition-all active:scale-95"
-                >
-                  <Bookmark className="w-3.5 h-3.5 text-indigo-400" />
-                  Append Document to Dashboard
-                </button>
-              </div>
-            ) : (
-              <div className="py-16 text-center border border-dashed border-slate-900 rounded-2xl bg-slate-950/20">
-                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-slate-950 border border-slate-900">
-                  <ScrollText className="h-5 w-5 text-slate-600" />
-                </div>
-                <p className="text-xs text-slate-500 max-w-[200px] mx-auto leading-relaxed font-medium">
-                  Workspace idle. Populate parameters and trigger generator
-                  array to output compiling results.
-                </p>
-              </div>
-            )}
+            <div className="rounded-[2rem] bg-violet-600/10 dark:bg-slate-900/90 border border-violet-200/60 dark:border-violet-500/40 p-6 text-slate-900 dark:text-slate-100">
+              <h3 className="text-lg font-semibold mb-4 text-violet-700 dark:text-violet-200">
+                Tips for a stronger letter
+              </h3>
+              <ul className="space-y-3 text-sm leading-6">
+                <li>• Keep it concise, highlight your most relevant strengths, and tie them to the role.</li>
+                <li>• Use the company name and position title to create a tailored introduction.</li>
+                <li>• Emphasize results and impact, not just responsibilities.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

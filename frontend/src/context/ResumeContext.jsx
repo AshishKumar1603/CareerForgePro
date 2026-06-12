@@ -1,5 +1,14 @@
-import { createContext, useContext, useState, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 
+/**
+ * Default Resume Data
+ */
 const defaultResumeData = {
   template: "template1",
   name: "",
@@ -14,11 +23,20 @@ const defaultResumeData = {
   profilePic: "",
 };
 
-const ResumeContext = createContext(null);
+/**
+ * Create Context
+ */
+const ResumeContext = createContext();
 
-export function ResumeProvider({ children }) {
-  const [resumeData, setResumeData] = useState({ ...defaultResumeData });
+/**
+ * Provider Component
+ */
+export const ResumeProvider = ({ children }) => {
+  const [resumeData, setResumeData] = useState(defaultResumeData);
 
+  /**
+   * Update Single Field
+   */
   const updateResumeField = useCallback((field, value) => {
     setResumeData((prev) => ({
       ...prev,
@@ -26,29 +44,72 @@ export function ResumeProvider({ children }) {
     }));
   }, []);
 
-  const resetResume = useCallback(() => {
-    setResumeData({ ...defaultResumeData });
+  /**
+   * Update Multiple Fields
+   */
+  const updateResumeData = useCallback((newData) => {
+    setResumeData((prev) => ({
+      ...prev,
+      ...newData,
+    }));
   }, []);
 
-  const value = {
-    resumeData,
-    setResumeData,
-    updateResumeField,
-    resetResume,
-  };
+  /**
+   * Reset Resume
+   */
+  const resetResume = useCallback(() => {
+    setResumeData(defaultResumeData);
+  }, []);
+
+  /**
+   * Change Template
+   */
+  const changeTemplate = useCallback((template) => {
+    setResumeData((prev) => ({
+      ...prev,
+      template,
+    }));
+  }, []);
+
+  /**
+   * Context Value
+   */
+  const value = useMemo(
+    () => ({
+      resumeData,
+      setResumeData,
+      updateResumeField,
+      updateResumeData,
+      resetResume,
+      changeTemplate,
+    }),
+    [
+      resumeData,
+      updateResumeField,
+      updateResumeData,
+      resetResume,
+      changeTemplate,
+    ]
+  );
 
   return (
     <ResumeContext.Provider value={value}>
       {children}
     </ResumeContext.Provider>
   );
-}
+};
 
-export function useResume() {
+/**
+ * Custom Hook
+ */
+export const useResume = () => {
   const context = useContext(ResumeContext);
-  if (!context) {
-    throw new Error("useResume must be used within a ResumeProvider");
-  }
-  return context;
-}
 
+  if (!context) {
+    throw new Error(
+      "useResume must be used within a ResumeProvider"
+    );
+  }
+
+  return context;
+};

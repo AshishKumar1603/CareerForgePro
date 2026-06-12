@@ -889,13 +889,11 @@ function Dashboard({
   const getItemTitle = (item) =>
     item.name || item.role || item.title || "Untitled Document";
 
-  const listCardClass = (item, itemCategory) => {
-    const isSelected =
-      selectedItem?.id === item.id && selectedItem?.category === itemCategory;
-    return `rounded-2xl border p-5 transition-all duration-300 cursor-pointer backdrop-blur-sm ${
-      isSelected
-        ? "bg-indigo-500/10 border-indigo-500/40 shadow-indigo-500/5 shadow-xl"
-        : "bg-slate-900/40 border-slate-900 shadow-sm hover:border-slate-800 hover:bg-slate-900/80 hover:-translate-y-0.5"
+  const listCardClass = (item) =>
+    `rounded-[1.75rem] border p-5 transition-all duration-300 cursor-pointer transform-gpu will-change-transform ${
+      selectedItem?.id === item.id
+        ? "bg-violet-50 dark:bg-violet-900/20 border-violet-300 dark:border-violet-700 shadow-2xl scale-[1.01]"
+        : "bg-white/90 dark:bg-gray-800/90 border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.01] hover:ring-1 hover:ring-violet-100/40"
     }`;
   };
 
@@ -1011,11 +1009,11 @@ function Dashboard({
           </div>
         </motion.div>
 
-        {/* Realtime Analytical Dashboard Statistics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <div className="rounded-2xl bg-slate-900/40 border border-slate-900 p-6 backdrop-blur-sm">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
-              Total Assets Loaded
+        {/* Clean Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+          <div className="rounded-[1.75rem] glass-card p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
+              Total Assets
             </p>
             <div className="mt-3 flex items-center justify-between">
               <h2 className="text-4xl font-black text-slate-100">
@@ -1026,24 +1024,56 @@ function Dashboard({
               </div>
             </div>
           </div>
-
-          <div className="rounded-2xl bg-slate-900/40 border border-slate-900 p-6 backdrop-blur-sm">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
-              Average ATS Rank Record
+          <div className="rounded-[1.75rem] glass-card p-6 flex items-center justify-between">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
+              Average ATS Score
             </p>
-            <div className="mt-3 flex items-center justify-between">
-              <h2 className="text-4xl font-black text-purple-400">
-                {avgAtsScore}%
-              </h2>
-              <div className="h-10 w-10 flex items-center justify-center rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400">
-                <BarChart3 className="w-5 h-5" />
+            <div className="mt-2 flex items-center gap-4">
+              <div className="ats-ring">
+                {/** SVG progress ring */}
+                {(() => {
+                  const radius = 36;
+                  const circumference = 2 * Math.PI * radius;
+                  const pct = Math.max(0, Math.min(100, avgAtsScore));
+                  const offset = circumference - (pct / 100) * circumference;
+                  return (
+                    <svg width="88" height="88" viewBox="0 0 88 88">
+                      <defs>
+                        <linearGradient id="g1" x1="0%" x2="100%">
+                          <stop offset="0%" stopColor="#7c3aed" />
+                          <stop offset="50%" stopColor="#ec4899" />
+                          <stop offset="100%" stopColor="#f97316" />
+                        </linearGradient>
+                      </defs>
+                      <g transform="translate(44,44)">
+                        <circle r={radius} fill="transparent" stroke="rgba(0,0,0,0.06)" strokeWidth="8" />
+                        <circle
+                          r={radius}
+                          fill="transparent"
+                          stroke="url(#g1)"
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeDasharray={circumference}
+                          strokeDashoffset={offset}
+                          transform="rotate(-90)"
+                        />
+                        <text x="0" y="6" textAnchor="middle" fontSize="18" fontWeight="700" fill="#111827">
+                          {pct}%
+                        </text>
+                      </g>
+                    </svg>
+                  );
+                })()}
+              </div>
+              <div className="ml-2">
+                <h2 className="text-3xl font-black text-violet-600 dark:text-violet-300">{avgAtsScore}%</h2>
+                <p className="text-sm text-gray-500 mt-1">Avg. performance vs ATS benchmarks</p>
               </div>
             </div>
           </div>
-
-          <div className="rounded-2xl bg-slate-900/40 border border-slate-900 p-6 backdrop-blur-sm">
-            <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
-              Core Active Modules
+          <div className="rounded-[1.75rem] glass-card p-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
+              Main Tools
             </p>
             <div className="mt-3.5 flex flex-wrap gap-1.5">
               {["Resume", "ATS Analytics", "Cover Generator"].map((tool) => (
@@ -1058,35 +1088,44 @@ function Dashboard({
           </div>
         </div>
 
-        {/* Glassmorphic Tab Selector Engine */}
-        <div className="mb-8 overflow-x-auto rounded-2xl bg-slate-900/30 border border-slate-900 p-2 backdrop-blur-md">
-          <div className="flex gap-1.5 min-w-max">
-            {tabs.map((tab) => {
-              const TabIcon = tab.icon;
-              const isTabActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => {
-                    setActiveTab(tab.id);
-                    setSelectedItem(null);
-                  }}
-                  className={`flex items-center gap-2.5 rounded-xl px-4 py-2.5 text-xs font-bold transition-all ${
-                    isTabActive
-                      ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md border border-indigo-500/20"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-900/60"
+        {/* Tabs */}
+        <div className="mb-8 overflow-x-auto pb-2">
+          <div className="relative flex gap-3 min-w-max rounded-[1.75rem] p-3 border bg-white/85 dark:bg-gray-900/80 border-white dark:border-gray-700 shadow-md">
+            {tabs.map((tab) => (
+              <motion.button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setSelectedItem(null);
+                }}
+                whileTap={{ scale: 0.98 }}
+                className={`relative flex items-center gap-3 rounded-2xl px-5 py-3 font-bold transition-all overflow-hidden ${
+                  activeTab === tab.id
+                    ? "text-white"
+                    : "text-gray-600 dark:text-gray-300"
+                }`}
+              >
+                {activeTab === tab.id && (
+                  <motion.span
+                    layoutId="tabActive"
+                    className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 shadow-lg"
+                    style={{ zIndex: 0 }}
+                  />
+                )}
+                <span style={{ zIndex: 10 }}>{tab.icon}</span>
+                <span style={{ zIndex: 10 }}>{tab.label}</span>
+                <span
+                  className={`rounded-full px-2.5 py-0.5 text-xs ${
+                    activeTab === tab.id
+                      ? "bg-white/20 text-white"
+                      : "bg-violet-100 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300"
                   }`}
+                  style={{ zIndex: 10 }}
                 >
-                  <TabIcon className="w-4 h-4" />
-                  <span>{tab.label}</span>
-                  <span
-                    className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${isTabActive ? "bg-white/20 text-white" : "bg-slate-800 text-slate-400"}`}
-                  >
-                    {tab.count}
-                  </span>
-                </button>
-              );
-            })}
+                  {tab.count}
+                </span>
+              </motion.button>
+            ))}
           </div>
         </div>
 
