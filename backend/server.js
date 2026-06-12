@@ -12,9 +12,11 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 const pdfRoutes = require("./routes/pdf");
 const stripeRoutes = require("./routes/stripe");
+const atsRoutes = require("./routes/ats");
 
 app.use("/api/pdf", pdfRoutes);
 app.use("/api/stripe", stripeRoutes);
+app.use("/api/ats", atsRoutes);
 
 app.get("/", (req, res) =>
   res.json({ message: "CareerForge Backend Running ✅" }),
