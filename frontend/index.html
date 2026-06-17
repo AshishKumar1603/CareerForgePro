@@ -1,13 +1,103 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>careerforge</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>CareerForge | Build Your Future Career</title>
+  <meta
+    name="description"
+    content="CareerForge helps students and professionals build resumes, prepare for interviews, and discover career opportunities."
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Google Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Theme Color -->
+  <meta name="theme-color" content="#2563eb" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: white;
+      min-height: 100vh;
+    }
+
+    #loader {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: #0f172a;
+      z-index: 9999;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #60a5fa;
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+
+    .spinner {
+      width: 45px;
+      height: 45px;
+      border: 4px solid rgba(255,255,255,0.2);
+      border-top: 4px solid #60a5fa;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-top: 20px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loader">
+    <div class="logo">🚀 CareerForge</div>
+    <div class="tagline">Forging Careers. Building Futures.</div>
+    <div class="spinner"></div>
+  </div>
+
+  <div id="root"></div>
+
+  <script>
+    window.addEventListener("load", () => {
+      const loader = document.getElementById("loader");
+      if (loader) {
+        loader.style.display = "none";
+      }
+    });
+  </script>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
 </html>
