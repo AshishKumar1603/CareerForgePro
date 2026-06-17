@@ -740,8 +740,8 @@ import {
   Mail,
   Phone,
   MapPin,
-  Linkedin,
-  Github,
+  // LinkedinIcon,
+  // GithubIcon,
   Printer,
   Sliders,
   Eye,
@@ -794,7 +794,7 @@ function ResumePreview({ resumeData = {} }) {
   );
   const rawSkills = sanitizeValue(
     resumeData.skills ||
-      "Languages: C++, JavaScript, Python, HTML, CSS\nAI and Generative AI: Retrieval-Augmented Generation (RAG), Large Language Models (LLMs), Prompt Engineering, Semantic Search, Vector Search\nBackend and APIs: Node.js, Express.js, REST API Development, API Integration\nFrontend: React.js, Tailwind CSS\nDatabases: MongoDB, MongoDB Atlas, MySQL\nTools: Git, GitHub, Postman, VS Code, Docker\nConcepts: SDLC, Backend System Design, Authentication, Database Schema Design, API Debugging\nSoft Skills: Collaboration, Public Speaking, Communication and Leadership.\nInterests: Full Stack Development, Data Structures and Algorithms.",
+      "Languages: C++, JavaScript, Python, HTML, CSS\nAI and Generative AI: Retrieval-Augmented Generation (RAG), Large Language Models (LLMs), Prompt Engineering, Semantic Search, Vector Search\nBackend and APIs: Node.js, Express.js, REST API Development, API Integration\nFrontend: React.js, Tailwind CSS\nDatabases: MongoDB, MongoDB Atlas, MySQL\nTools: Git, , Postman, VS Code, Docker\nConcepts: SDLC, Backend System Design, Authentication, Database Schema Design, API Debugging\nSoft Skills: Collaboration, Public Speaking, Communication and Leadership.\nInterests: Full Stack Development, Data Structures and Algorithms.",
   );
   const rawAchievements = sanitizeValue(
     resumeData.achievements ||

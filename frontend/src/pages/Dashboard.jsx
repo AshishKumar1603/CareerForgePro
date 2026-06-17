@@ -889,11 +889,13 @@ function Dashboard({
   const getItemTitle = (item) =>
     item.name || item.role || item.title || "Untitled Document";
 
-  const listCardClass = (item) =>
-    `rounded-[1.75rem] border p-5 transition-all duration-300 cursor-pointer transform-gpu will-change-transform ${
-      selectedItem?.id === item.id
-        ? "bg-violet-50 dark:bg-violet-900/20 border-violet-300 dark:border-violet-700 shadow-2xl scale-[1.01]"
-        : "bg-white/90 dark:bg-gray-800/90 border-gray-100 dark:border-gray-700 shadow-sm hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.01] hover:ring-1 hover:ring-violet-100/40"
+  const listCardClass = (item, itemCategory) => {
+    const isSelected =
+      selectedItem?.id === item.id && selectedItem?.category === itemCategory;
+    return `rounded-[1.75rem] border p-5 transition-all duration-300 cursor-pointer transform-gpu will-change-transform ${
+      isSelected
+        ? "bg-indigo-500/10 border-indigo-500/40 shadow-2xl scale-[1.01]"
+        : "bg-slate-900/40 border-slate-900 shadow-sm hover:border-slate-800 hover:bg-slate-900/80 hover:-translate-y-0.5 hover:scale-[1.01] hover:ring-1 hover:ring-indigo-500/20"
     }`;
   };
 
@@ -1011,7 +1013,7 @@ function Dashboard({
 
         {/* Clean Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-          <div className="rounded-[1.75rem] glass-card p-6">
+          <div className="rounded-[1.75rem] border border-slate-900 bg-slate-900/40 p-6">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
               Total Assets
             </p>
@@ -1024,7 +1026,7 @@ function Dashboard({
               </div>
             </div>
           </div>
-          <div className="rounded-[1.75rem] glass-card p-6 flex items-center justify-between">
+          <div className="rounded-[1.75rem] border border-slate-900 bg-slate-900/40 p-6 flex items-center justify-between">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
               Average ATS Score
             </p>
@@ -1046,7 +1048,12 @@ function Dashboard({
                         </linearGradient>
                       </defs>
                       <g transform="translate(44,44)">
-                        <circle r={radius} fill="transparent" stroke="rgba(0,0,0,0.06)" strokeWidth="8" />
+                        <circle
+                          r={radius}
+                          fill="transparent"
+                          stroke="rgba(255,255,255,0.06)"
+                          strokeWidth="8"
+                        />
                         <circle
                           r={radius}
                           fill="transparent"
@@ -1057,7 +1064,14 @@ function Dashboard({
                           strokeDashoffset={offset}
                           transform="rotate(-90)"
                         />
-                        <text x="0" y="6" textAnchor="middle" fontSize="18" fontWeight="700" fill="#111827">
+                        <text
+                          x="0"
+                          y="6"
+                          textAnchor="middle"
+                          fontSize="18"
+                          fontWeight="700"
+                          fill="#f8fafc"
+                        >
                           {pct}%
                         </text>
                       </g>
@@ -1066,12 +1080,16 @@ function Dashboard({
                 })()}
               </div>
               <div className="ml-2">
-                <h2 className="text-3xl font-black text-violet-600 dark:text-violet-300">{avgAtsScore}%</h2>
-                <p className="text-sm text-gray-500 mt-1">Avg. performance vs ATS benchmarks</p>
+                <h2 className="text-3xl font-black text-violet-600 dark:text-violet-300">
+                  {avgAtsScore}%
+                </h2>
+                <p className="text-sm text-gray-500 mt-1">
+                  Avg. performance vs ATS benchmarks
+                </p>
               </div>
             </div>
           </div>
-          <div className="rounded-[1.75rem] glass-card p-6">
+          <div className="rounded-[1.75rem] border border-slate-900 bg-slate-900/40 p-6">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-gray-500 dark:text-gray-400">
               Main Tools
             </p>
@@ -1090,7 +1108,7 @@ function Dashboard({
 
         {/* Tabs */}
         <div className="mb-8 overflow-x-auto pb-2">
-          <div className="relative flex gap-3 min-w-max rounded-[1.75rem] p-3 border bg-white/85 dark:bg-gray-900/80 border-white dark:border-gray-700 shadow-md">
+          <div className="relative flex gap-3 min-w-max rounded-[1.75rem] p-3 border bg-white/5 dark:bg-gray-900/80 border-slate-800/80 shadow-md">
             {tabs.map((tab) => (
               <motion.button
                 key={tab.id}
@@ -1100,25 +1118,25 @@ function Dashboard({
                 }}
                 whileTap={{ scale: 0.98 }}
                 className={`relative flex items-center gap-3 rounded-2xl px-5 py-3 font-bold transition-all overflow-hidden ${
-                  activeTab === tab.id
-                    ? "text-white"
-                    : "text-gray-600 dark:text-gray-300"
+                  activeTab === tab.id ? "text-white" : "text-gray-400"
                 }`}
               >
                 {activeTab === tab.id && (
                   <motion.span
                     layoutId="tabActive"
-                    className="absolute inset-0 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-500 shadow-lg"
+                    className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 shadow-lg"
                     style={{ zIndex: 0 }}
                   />
                 )}
-                <span style={{ zIndex: 10 }}>{tab.icon}</span>
+                <span style={{ zIndex: 10 }}>
+                  <tab.icon className="w-4 h-4 inline mr-1" />
+                </span>
                 <span style={{ zIndex: 10 }}>{tab.label}</span>
                 <span
                   className={`rounded-full px-2.5 py-0.5 text-xs ${
                     activeTab === tab.id
                       ? "bg-white/20 text-white"
-                      : "bg-violet-100 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300"
+                      : "bg-slate-850 text-slate-400"
                   }`}
                   style={{ zIndex: 10 }}
                 >

@@ -390,13 +390,13 @@
 
 // export default ResumeForm;
 
-import { useState } from "react";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import {
   Sparkles,
   FileText,
   FileSpreadsheet,
   Sparkle,
-  UploadCloud,
   User,
   Briefcase,
   Mail,
@@ -407,9 +407,10 @@ import {
   Loader2,
   Crown,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 function ResumeForm({
-  resumeData,
+  resumeData = {},
   setResumeData,
   handleDownloadPDF,
   handleDownloadWord,
@@ -424,25 +425,32 @@ function ResumeForm({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setResumeData({ ...resumeData, [name]: value });
+    setResumeData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleDownloadClick = () => {
     if (resumeData.template === "template4" && !isPro) {
-      alert("Premium template download is available only for Pro users.");
+      toast.error("Premium template download is available only for Pro users.");
       setCurrentPage("pricing");
       return;
     }
-    handleDownloadPDF();
+    if (handleDownloadPDF) {
+      handleDownloadPDF();
+    }
   };
 
   const handleAIImprove = async (fieldName, fieldValue) => {
     if (!fieldValue || !fieldValue.trim()) {
-      alert("Please add some content first before improving.");
+      toast.error("Please add some content first before optimizing.");
       return;
     }
+
+    const toastId = toast.loading(
+      `Optimizing ${fieldName} using AI parameters...`,
+    );
+    setImprovingField(fieldName);
+
     try {
-      setImprovingField(fieldName);
       const response = await fetch(
         "https://api.groq.com/openai/v1/chat/completions",
         {
@@ -456,21 +464,33 @@ function ResumeForm({
             messages: [
               {
                 role: "user",
-                content: `Rewrite this resume ${fieldName} section to sound more professional, metric-driven, and impactful for ATS compliance. Keep it crisp. Return ONLY the rewritten text, without any explanations or extra quotes:\n\n${fieldValue}`,
+                content: `You are an elite ATS resume optimizer. Rewrite this resume section to sound professional, highly impactful, and metric-driven. Use strong action verbs. Return ONLY the polished plain text content without any extra conversational filler, quotes, or introduction:
+
+Section: ${fieldName}
+Content:
+${fieldValue}`,
               },
             ],
             max_tokens: 600,
+            temperature: 0.3,
           }),
         },
       );
+
+      if (!response.ok) throw new Error("AI engine handshake failed.");
+
       const data = await response.json();
       const improved = data.choices[0].message.content.trim();
-      setResumeData({ ...resumeData, [fieldName]: improved });
+
+      setResumeData((prev) => ({ ...prev, [fieldName]: improved }));
+      toast.success(`${fieldName} section optimized successfully!`, {
+        id: toastId,
+      });
     } catch (err) {
-      alert(
-        "AI optimization failed. Please verify your VITE_GROQ_API_KEY.",
-        err,
-      );
+      console.error(err);
+      toast.error("AI handshake timed out. Check your VITE_GROQ_API_KEY.", {
+        id: toastId,
+      });
     } finally {
       setImprovingField(null);
     }
@@ -478,11 +498,16 @@ function ResumeForm({
 
   const handleImproveResume = async () => {
     if (!pastedResume.trim()) {
-      alert("Please paste your raw resume data structure first.");
+      toast.error("Please paste your raw resume text copy first.");
       return;
     }
+
+    const toastId = toast.loading(
+      "Parsing and restructuring your resume data...",
+    );
+    setExtracting(true);
+
     try {
-      setExtracting(true);
       const response = await fetch(
         "https://api.groq.com/openai/v1/chat/completions",
         {
@@ -496,23 +521,52 @@ function ResumeForm({
             messages: [
               {
                 role: "user",
-                content: `You are an expert resume parsing engine. Extrapolate and rewrite fields efficiently into structured data. Return ONLY a pure JSON block with no markdown formatting backticks or wrapper code text:\n{\n  "name": "",\n  "role": "",\n  "email": "",\n  "phone": "",\n  "address": "",\n  "skills": "",\n  "experience": "",\n  "projects": "",\n  "certifications": ""\n}\n\nResume Context:\n${pastedResume}`,
+                content: `You are an elite resume parser. Deconstruct the pasted resume and return ONLY a valid JSON object structure. Do not add markdown backticks outside, do not write explanatory text. Ensure it is perfectly parsed.
+
+Template:
+{
+  "name": "",
+  "role": "",
+  "email": "",
+  "phone": "",
+  "address": "",
+  "skills": "",
+  "experience": "",
+  "projects": "",
+  "certifications": ""
+}
+
+Resume Text:
+${pastedResume}`,
               },
             ],
             max_tokens: 1200,
+            temperature: 0.1,
           }),
         },
       );
+
+      if (!response.ok) throw new Error("Extraction response failed.");
+
       const data = await response.json();
-      const text = data.choices[0].message.content;
-      const clean = text.replace(/```json|```/g, "").trim();
-      const parsed = JSON.parse(clean);
-      setResumeData({ ...resumeData, ...parsed });
+      const text = data.choices[0].message.content.trim();
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+
+      if (!jsonMatch) {
+        throw new Error("Invalid output format.");
+      }
+
+      const parsed = JSON.parse(jsonMatch[0]);
+      setResumeData((prev) => ({ ...prev, ...parsed }));
       setExtracted(true);
+      toast.success("Resume text extracted and structured successfully!", {
+        id: toastId,
+      });
     } catch (err) {
-      alert(
-        "Parser failed to parse text elements. Check api payload or env string.",
-        err,
+      console.error(err);
+      toast.error(
+        "Failed to parse the text. Please ensure it is standard readable text.",
+        { id: toastId },
       );
     } finally {
       setExtracting(false);
@@ -520,133 +574,139 @@ function ResumeForm({
   };
 
   const inputClass =
-    "w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-3 rounded-xl focus:ring-2 focus:ring-sky-500 focus:border-sky-500 dark:focus:ring-sky-400 transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-400 shadow-sm text-sm";
+    "w-full border border-slate-800 bg-slate-900/60 p-3 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-slate-100 placeholder-slate-500 text-sm shadow-inner";
 
-  const textareaClass = `${inputClass} resize-vertical h-24`;
+  const textareaClass = `${inputClass} resize-y min-h-[120px] leading-relaxed`;
+
+  const sectionsConfig = [
+    {
+      name: "skills",
+      label: "Skills Matrix",
+      placeholder:
+        "Languages: C++, JavaScript\nFrameworks: React, Express\nCloud: Docker...",
+    },
+    {
+      name: "experience",
+      label: "Professional Experience",
+      placeholder:
+        "Zaalima Development Pvt. Ltd. | Mar 2026 - May 2026 | Remote\nWeb Development Intern\n• Developed full-stack features...",
+    },
+    {
+      name: "projects",
+      label: "Personal Projects",
+      placeholder: "StudyNotion - Ed-Tech Platform\n• Built core REST APIs...",
+    },
+    {
+      name: "certifications",
+      label: "Education & Certifications",
+      placeholder:
+        "Rajkiya Engineering College Azamgarh | 2022-2026 | CGPA: 7.1\nB.Tech Information Technology",
+    },
+  ];
 
   return (
-    <div className="bg-white/90 dark:bg-gray-800/90 rounded-3xl p-6 shadow-md hover:shadow-xl transition-all duration-300 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50">
-      <h2 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">
-        Resume Details
-      </h2>
-      <p className="text-sm text-gray-600 dark:text-gray-300 mb-5 italic">
-        Professionally improved by CareerForge AI
-      </p>
+    <div className="bg-slate-900/40 rounded-3xl p-6 backdrop-blur-md border border-slate-900 shadow-xl space-y-6">
+      <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+        <h2 className="text-xl font-bold text-slate-100 flex items-center gap-2">
+          <FileText className="w-5 h-5 text-indigo-400" /> Resume Parameters
+        </h2>
+        <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-slate-950 border border-slate-800 text-slate-400 uppercase tracking-widest font-mono">
+          {mode} Mode
+        </span>
+      </div>
 
       <div className="space-y-4">
         {mode === "improve" && (
-          <div className="space-y-3">
-            <div className="rounded-3xl border border-slate-200/70 dark:border-slate-700/50 bg-slate-50/80 dark:bg-slate-900/20 p-5 shadow-sm">
-              <p className="text-sm text-gray-700 dark:text-gray-200 mb-3">
-                Paste your full resume below and CareerForge AI will extract and
-                improve all fields automatically.
-              </p>
-              <textarea
-                rows="6"
-                placeholder="Paste your full resume text here..."
-                value={pastedResume}
-                onChange={(e) => setPastedResume(e.target.value)}
-                className={`${textareaClass} h-auto`}
-              />
-              <button
-                type="button"
-                onClick={handleImproveResume}
-                disabled={extracting}
-                className="mt-3 w-full rounded-xl bg-gradient-to-r from-sky-600 to-sky-700 text-white px-4 py-2.5 text-sm font-semibold hover:from-sky-700 hover:to-sky-800 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {extracting ? (
-                  <>
-                    <svg
-                      className="animate-spin h-4 w-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                    >
-                      <circle
-                        className="opacity-25"
-                        cx="12"
-                        cy="12"
-                        r="10"
-                        stroke="currentColor"
-                        strokeWidth="4"
-                      />
-                      <path
-                        className="opacity-75"
-                        fill="currentColor"
-                        d="M4 12a8 8 0 018-8v8z"
-                      />
-                    </svg>
-                    Improving with AI...
-                  </>
-                ) : extracted ? (
-                  "✅ Improved! Paste again to re-improve"
-                ) : (
-                  "✨ Professionally Improve Resume"
-                )}
-              </button>
-            </div>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-2xl border border-indigo-500/20 bg-indigo-500/5 p-5 space-y-3"
+          >
+            <p className="text-xs font-medium text-indigo-300 leading-relaxed flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 shrink-0" /> Legacy Text Extractor
+              Terminal
+            </p>
+            <textarea
+              rows="5"
+              placeholder="Paste your legacy resume text copy here..."
+              value={pastedResume}
+              onChange={(e) => setPastedResume(e.target.value)}
+              className={`${textareaClass} bg-slate-950/80`}
+            />
+            <button
+              type="button"
+              onClick={handleImproveResume}
+              disabled={extracting}
+              className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-95 text-white px-4 py-2.5 text-xs font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {extracting ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  Analyzing Structural Matrix Logs...
+                </>
+              ) : extracted ? (
+                <>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  Fields Optimized! Click to re-run
+                </>
+              ) : (
+                <>
+                  <Wand2 className="w-3.5 h-3.5" /> Parse & Auto-Fill Matrix
+                </>
+              )}
+            </button>
+          </motion.div>
         )}
 
-        {/* Template Selector */}
-        <div>
-          <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1 uppercase tracking-wide">
-            Template{" "}
-            {isPro && (
-              <span className="ml-2 px-1.5 py-0.5 rounded text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 font-bold">
-                PRO
-              </span>
-            )}
-          </label>
+        {/* Template Selection */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest flex items-center justify-between">
+              <span>Layout Framework</span>
+              {isPro && (
+                <span className="px-1.5 py-0.5 rounded text-[9px] bg-amber-500/10 border border-amber-500/20 text-amber-400 font-black flex items-center gap-0.5">
+                  <Crown className="w-2.5 h-2.5" /> PRO
+                </span>
+              )}
+            </label>
+            <select
+              name="template"
+              value={resumeData.template || "template1"}
+              onChange={handleChange}
+              className={inputClass}
+            >
+              <option value="template1">Classic Default Minimal</option>
+              <option value="template2">Split Sidebar Corporate</option>
+              <option value="template3">Modern Slate Card</option>
+              <option value="template4">Premium Executive Suite 👑</option>
+            </select>
+          </div>
 
-          <select
-            name="template"
-            value={resumeData.template}
-            onChange={handleChange}
-            className={inputClass}
-          >
-            <option value="template1">Classic Left-Align Minimal</option>
-            <option value="template2">Split Minimal Sidebar</option>
-            <option value="template3">Modern Glass Centered Card</option>
-            <option value="template4">Premium Executive Suite 👑</option>
-          </select>
-          {!isPro && resumeData.template === "template4" && (
-            <p className="text-[11px] text-amber-400/90 mt-1.5 font-medium flex items-center gap-1">
-              <span>
-                ⚡ Preview allowed, compilation download triggers Pro.
-              </span>
-            </p>
-          )}
+          <div>
+            <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">
+              Avatar Image URL
+            </label>
+            <input
+              type="text"
+              name="profilePic"
+              placeholder="e.g. https://your-avatar.jpg"
+              value={resumeData.profilePic || ""}
+              onChange={handleChange}
+              className={inputClass}
+            />
+          </div>
         </div>
 
-        <div>
-          <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest">
-            Profile Picture
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-
-              if (file) {
-                const imageURL = URL.createObjectURL(file);
-                setResumeData({ ...resumeData, profilePic: imageURL });
-              }
-            }}
-            className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 p-2.5 rounded-xl text-gray-900 dark:text-white text-xs file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 dark:file:bg-sky-900/40 dark:file:text-sky-300 cursor-pointer"
-          />
-        </div>
-
-        {/* Identity Context Inputs */}
+        {/* Identity Information */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <div>
             <label className="text-[11px] font-bold text-slate-400 mb-1 block uppercase tracking-widest">
-              Full Character Name *
+              Full Name
             </label>
             <input
               type="text"
               name="name"
-              placeholder="Alex Mercer"
+              placeholder="e.g. John Doe"
               value={resumeData.name || ""}
               onChange={handleChange}
               className={inputClass}
@@ -654,12 +714,12 @@ function ResumeForm({
           </div>
           <div>
             <label className="text-[11px] font-bold text-slate-400 mb-1 block uppercase tracking-widest">
-              Target Designation
+              Target Role
             </label>
             <input
               type="text"
               name="role"
-              placeholder="Systems Architect"
+              placeholder="e.g. Software Engineer"
               value={resumeData.role || ""}
               onChange={handleChange}
               className={inputClass}
@@ -670,12 +730,12 @@ function ResumeForm({
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
           <div>
             <label className="text-[11px] font-bold text-slate-400 mb-1 block uppercase tracking-widest">
-              Secure Email
+              Email
             </label>
             <input
               type="email"
               name="email"
-              placeholder="alex@workspace.io"
+              placeholder="e.g. john@example.com"
               value={resumeData.email || ""}
               onChange={handleChange}
               className={inputClass}
@@ -683,12 +743,12 @@ function ResumeForm({
           </div>
           <div>
             <label className="text-[11px] font-bold text-slate-400 mb-1 block uppercase tracking-widest">
-              Phone Axis
+              Phone
             </label>
             <input
               type="tel"
               name="phone"
-              placeholder="+1 (555) 019-2831"
+              placeholder="e.g. +91 90123 45678"
               value={resumeData.phone || ""}
               onChange={handleChange}
               className={inputClass}
@@ -703,7 +763,7 @@ function ResumeForm({
           <input
             type="text"
             name="address"
-            placeholder="San Francisco, CA"
+            placeholder="e.g. Gorakhpur, India"
             value={resumeData.address || ""}
             onChange={handleChange}
             className={inputClass}
@@ -723,19 +783,24 @@ function ResumeForm({
               onChange={handleChange}
               className={textareaClass}
             />
-
-            {(name === "skills" || name === "experience") && (
-              <button
-                type="button"
-                onClick={() => handleAIImprove(name, resumeData[name])}
-                disabled={improvingField === name}
-                className="mt-2 w-full rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 text-white px-4 py-2 text-sm font-semibold hover:from-sky-600 hover:to-sky-700 transition-all shadow-sm disabled:opacity-60 disabled:cursor-not-allowed"
-              >
-                {improvingField === name
-                  ? "Improving with AI..."
-                  : `✨ Professionally Improve ${label}`}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => handleAIImprove(name, resumeData[name])}
+              disabled={improvingField === name}
+              className="w-full rounded-xl bg-slate-950 border border-slate-800 text-slate-300 hover:text-indigo-400 hover:border-slate-700 px-4 py-2 text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+            >
+              {improvingField === name ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-400" />
+                  Calibrating Text Synthetics...
+                </>
+              ) : (
+                <>
+                  <Sparkle className="w-3.5 h-3.5 text-indigo-400" />
+                  Optimize {label} with AI
+                </>
+              )}
+            </button>
           </div>
         ))}
 
@@ -744,21 +809,19 @@ function ResumeForm({
           <button
             type="button"
             onClick={handleDownloadClick}
-            className="w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white px-6 py-3.5 rounded-xl font-semibold hover:shadow-xl hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-md text-sm"
+            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-3.5 rounded-xl text-xs font-black tracking-wider uppercase transition-all shadow-lg hover:opacity-95 flex items-center justify-center gap-2"
           >
             <FileText className="w-4 h-4" />
             {resumeData.template === "template4" && !isPro
               ? "Unlock Premium Download Pass"
-              : mode === "improve"
-                ? "Download Optimized Asset"
-                : "Compile & Export PDF"}
+              : "Compile & Export PDF"}
           </button>
 
           {handleDownloadWord && (
             <button
               type="button"
               onClick={handleDownloadWord}
-              className="w-full border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/20 text-sky-700 dark:text-sky-300 px-6 py-3.5 rounded-xl font-semibold hover:bg-slate-100 dark:hover:bg-slate-900/30 transition-all duration-300 text-sm"
+              className="w-full border border-slate-800 bg-slate-950 text-slate-300 px-5 py-3.5 rounded-xl text-xs font-bold tracking-wider uppercase hover:bg-slate-900 hover:text-slate-100 transition-all flex items-center justify-center gap-2"
             >
               <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
               Download MS Word Object Document
