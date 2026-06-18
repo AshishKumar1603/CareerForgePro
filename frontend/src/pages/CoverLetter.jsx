@@ -498,7 +498,6 @@
 //     </div>
 //   );
 // };
-
 // export default CoverLetter;
 
 import React, { useState } from "react";
