@@ -503,7 +503,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import {
-  ChevronLeft,
   Sparkles,
   User,
   Briefcase,
@@ -609,9 +608,6 @@ Structural Rules:
   const inputClass =
     "w-full border border-slate-800 bg-slate-900/60 p-3 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-slate-100 placeholder-slate-600 text-sm shadow-inner";
 
-  const textareaClass =
-    "w-full border border-slate-800 bg-slate-900/60 p-3 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 text-slate-100 placeholder-slate-600 text-sm shadow-inner resize-y min-h-[160px] leading-relaxed";
-
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 relative overflow-hidden selection:bg-indigo-500/30">
       {/* Background Ambience Shaders */}
@@ -690,48 +686,21 @@ Structural Rules:
               </div>
             </div>
 
-            <div>
-              <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest flex items-center gap-1">
-                <Building className="w-3 h-3 text-indigo-400" /> Enterprise
-                Destination Name
-              </label>
-              <input
-                type="text"
-                placeholder="e.g., Tesla Inc."
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                className={inputClass}
-              />
-            </div>
-
-            <div>
-              <label className="block text-[11px] font-bold text-slate-400 mb-1.5 uppercase tracking-widest flex items-center gap-1">
-                <ScrollText className="w-3 h-3 text-indigo-400" /> Target Role
-                Requirements Matrix
-              </label>
-              <textarea
-                rows="8"
-                placeholder="Dump target job criteria requirements here..."
-                value={jobDescription}
-                onChange={(e) => setJobDescription(e.target.value)}
-                className={textareaClass}
-              />
-            </div>
-
             <button
               onClick={handleGenerateLetter}
               disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-5 py-3.5 text-xs font-black tracking-wider text-white uppercase shadow-md transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:opacity-95"
+              className="w-full inline-flex items-center justify-center gap-3 rounded-3xl bg-violet-600 text-white px-6 py-3 font-semibold shadow-lg shadow-violet-500/20 hover:bg-violet-700 transition-all active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  Compiling Synthesis Protocols...
+                  <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+                  </svg>
+                  Generating...
                 </>
               ) : (
-                <>
-                  <Wand2 className="w-4 h-4" /> Synthesize Cover Letter
-                </>
+                "Generate Cover Letter"
               )}
             </button>
           </div>
@@ -778,6 +747,6 @@ Structural Rules:
       </main>
     </div>
   );
-};
+}
 
 export default CoverLetter;

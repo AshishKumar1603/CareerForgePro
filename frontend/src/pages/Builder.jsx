@@ -228,14 +228,84 @@ import { motion } from "framer-motion";
 import {
   PlusCircle,
   Sparkles,
-  FileSearch,
-  Layers,
-  ScrollText,
-  ChevronRight,
-  Terminal,
-  Cpu,
-  Workflow,
+  BarChart3,
+  Mail,
+  Star,
+  Lock,
 } from "lucide-react";
+
+const steps = [
+  {
+    title: "Create Resume",
+    desc: "Build your resume with live preview",
+    icon: FileText,
+    gradient: "from-violet-500 to-fuchsia-500",
+    bg: "from-violet-500/5 to-fuchsia-500/5 dark:from-violet-900/10 dark:to-fuchsia-900/10",
+    border: "border-violet-200/60 dark:border-violet-800/40",
+    page: "resume",
+    pro: false,
+  },
+  {
+    title: "Analyze Job Description",
+    desc: "Paste JD and extract key keywords",
+    icon: Search,
+    gradient: "from-blue-500 to-cyan-500",
+    bg: "from-blue-500/5 to-cyan-500/5 dark:from-blue-900/10 dark:to-cyan-900/10",
+    border: "border-blue-200/60 dark:border-blue-800/40",
+    page: "jd-analysis",
+    pro: true,
+  },
+  {
+    title: "Improve Resume",
+    desc: "AI rewrites your content",
+    icon: "✨",
+    gradient: "from-amber-500 to-orange-500",
+    bg: "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
+    border: "border-amber-200 dark:border-amber-700/50",
+    page: "improve-resume",
+    pro: true,
+  },
+  {
+    title: "Check ATS Score",
+    desc: "See how well your resume matches",
+    icon: BarChart3,
+    gradient: "from-emerald-500 to-teal-500",
+    bg: "from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20",
+    border: "border-emerald-200 dark:border-emerald-700/50",
+    page: "ats-score",
+    pro: false,
+  },
+  {
+    title: "Generate Cover Letter",
+    desc: "Create a matching cover letter",
+    icon: "💌",
+    gradient: "from-pink-500 to-rose-500",
+    bg: "from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20",
+    border: "border-pink-200 dark:border-pink-700/50",
+    page: "cover-letter",
+    pro: true,
+  },
+  {
+    title: "My Dashboard",
+    desc: "View and manage saved resumes",
+    icon: "🗂️",
+    gradient: "from-indigo-500 to-violet-500",
+    bg: "from-indigo-500/5 to-violet-500/5 dark:from-indigo-900/10 dark:to-indigo-900/10",
+    border: "border-indigo-200/60 dark:border-indigo-800/40",
+    page: "dashboard",
+    pro: false,
+  },
+  {
+    title: "Upgrade to Pro",
+    desc: "Unlock templates & unlimited builds",
+    icon: Star,
+    gradient: "from-yellow-500 to-amber-500",
+    bg: "from-yellow-500/10 to-amber-500/10 dark:from-yellow-900/20 dark:to-amber-900/20",
+    border: "border-yellow-200 dark:border-yellow-800/60",
+    page: "pricing",
+    pro: false,
+  },
+];
 
 function Builder({ setCurrentPage, isPro }) {
   // Container animation variants for clean progressive loading
@@ -249,57 +319,37 @@ function Builder({ setCurrentPage, isPro }) {
     },
   };
 
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
-    },
-  };
+  return (
+    <motion.div
+      className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50/40 to-violet-100 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-all duration-300"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+    >
+      {/* Local Navbar rendering is removed because App.jsx renders it globally now */}
 
-  const tools = [
-    {
-      title: "Build From Scratch",
-      desc: "Assemble a clean corporate resume using our precise, structured template engine.",
-      icon: <PlusCircle className="w-5 h-5 text-indigo-400" />,
-      action: () => setCurrentPage("create-resume"),
-      badge: "Essential",
-      badgeColor: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
-    },
-    {
-      title: "AI Resume Improver",
-      desc: "Deconstruct your current resume layout & inject high-impact metric keywords.",
-      icon: <Sparkles className="w-5 h-5 text-purple-400" />,
-      action: () => setCurrentPage("improve-resume"),
-      badge: "AI Sync",
-      badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-    },
-    {
-      title: "ATS Score Checker",
-      desc: "Compare your resume alongside target job descriptions to analyze matching scores.",
-      icon: <FileSearch className="w-5 h-5 text-emerald-400" />,
-      action: () => setCurrentPage("ats-score"),
-      badge: "Scoring Engine",
-      badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
-    },
-    {
-      title: "JD Keyword Extractor",
-      desc: "Parse job requirements to map required technical stack configurations.",
-      icon: <Layers className="w-5 h-5 text-amber-400" />,
-      action: () => setCurrentPage("jd-analysis"),
-      badge: "Data Map",
-      badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/20",
-    },
-    {
-      title: "Cover Letter Generator",
-      desc: "Synthesize personalized, persuasive introductory letters tailored directly to target roles.",
-      icon: <ScrollText className="w-5 h-5 text-pink-400" />,
-      action: () => setCurrentPage("cover-letter"),
-      badge: "Synthesizer",
-      badgeColor: "bg-pink-500/10 text-pink-400 border-pink-500/20",
-    },
-  ];
+      <div className="max-w-7xl mx-auto">
+        {/* Header Block Section */}
+        <motion.div
+          className="text-center mb-12"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          <span className="inline-block px-4 py-1.5 rounded-full bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 text-sm font-medium mb-4">
+            Workspace
+          </span>
+          <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+            CareerForge{" "}
+            <span className="bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent">
+              Workspace
+            </span>
+          </h1>
+          <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto font-medium">
+            Supercharge your job application workflow step-by-step with AI
+            tools.
+          </p>
+        </motion.div>
 
   return (
     <div className="min-h-[calc(100vh-68px)] bg-slate-950 text-slate-100 relative overflow-hidden px-4 sm:px-8 py-12 selection:bg-indigo-500/30">
@@ -379,35 +429,21 @@ function Builder({ setCurrentPage, isPro }) {
                 </div>
               </div>
 
-              {/* Action Vector Link */}
-              <div className="pt-4 border-t border-slate-900/60 mt-4 flex items-center justify-between text-xs font-bold text-slate-500 group-hover:text-indigo-400 transition-colors duration-200">
-                <span className="font-mono">INITIALIZE_NODE</span>
-                <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-200" />
-              </div>
-            </motion.div>
-          ))}
-        </motion.section>
-
-        {}
-        {/* Global Pipeline Map */}
-        <section className="bg-slate-900/10 border border-slate-900 rounded-3xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center">
-              <Workflow className="w-4 h-4 text-indigo-400" />
-            </div>
-            <div>
-              <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider font-mono">
-                System Sequence Complete
-              </h4>
-              <p className="text-[11px] text-slate-500">
-                Auto-inject tracking keywords directly into templates.
-              </p>
-            </div>
-          </div>
-          <div className="text-[10px] text-slate-600 font-mono">
-            SECURE SHA256 ECOSYSTEM LOGS ACTIVE
-          </div>
-        </section>
+        {/* Coming Soon Drawer Element */}
+        {selectedStep && (
+          <motion.div
+            className="mt-10 max-w-7xl mx-auto bg-white/90 dark:bg-gray-800/90 rounded-3xl p-8 shadow-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+              {selectedStep}
+            </h2>
+            <p className="text-gray-500 dark:text-gray-400">
+              This feature is coming soon. Stay tuned! 🚀
+            </p>
+          </motion.div>
+        )}
       </div>
     </div>
   );

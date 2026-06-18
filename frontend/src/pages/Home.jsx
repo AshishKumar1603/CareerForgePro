@@ -1,43 +1,6 @@
-// import { motion } from 'framer-motion';
-// import Navbar from "../components/Navbar";
+﻿import { motion } from "framer-motion";
 
-// function Home({ setCurrentPage, isPro }) {
-//   return (
-//     <motion.div
-//       className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50 to-violet-100 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-all duration-1000"
-//       initial={{ opacity: 0 }}
-//       animate={{ opacity: 1 }}
-//       transition={{ duration: 0.6 }}
-//     >
-// <Navbar onLogin={() => setCurrentPage("login")} />
-//       {/* Hero Section */}
-//       <motion.section
-//         className="text-center py-20 sm:py-24 px-4 sm:px-6"
-//         initial={{ y: 50, opacity: 0 }}
-//         animate={{ y: 0, opacity: 1 }}
-//         transition={{ duration: 0.8, delay: 0.2 }}
-//       >
-//         <motion.p
-//           className="inline-block px-4 sm:px-5 py-2 rounded-full bg-violet-100/90 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 font-medium mb-6 shadow-lg backdrop-blur-sm"
-//           whileHover={{ scale: 1.05 }}
-//         >
-//           AI Resume Builder {isPro && <span className="ml-2 px-2 py-0.5 rounded-full bg-yellow-400 text-yellow-900 text-xs font-bold">PRO</span>}
-//         </motion.p>
-
-//         <motion.h1
-//           className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-gray-900 dark:text-white"
-//           initial={{ y: 30, opacity: 0 }}
-//           animate={{ y: 0, opacity: 1 }}
-//           transition={{ duration: 0.8, delay: 0.4 }}
-//         >
-//           Build ATS-Friendly <br />
-//           <span className="bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent dark:from-violet-400 dark:to-fuchsia-400">
-//             Resumes With AI
-//           </span>
-//         </motion.h1>
-
-//         <motion.p
-//           className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed"
+function Home({ setCurrentPage, isPro }) {
 //           initial={{ y: 30, opacity: 0 }}
 //           animate={{ y: 0, opacity: 1 }}
 //           transition={{ duration: 0.8, delay: 0.6 }}
@@ -590,11 +553,6 @@ function Home({ setCurrentPage, isPro }) {
         <div className="absolute left-1/2 top-[75%] h-96 w-96 rounded-full bg-cyan-300/20 blur-3xl" />
       </div>
 
-      {/* LOCAL NAVBAR RENDERING REMOVED:
-        This prevents double-navbar rendering conflicts and restores page loading.
-        Navigation is handled globally by App.jsx layout wrappers.
-      */}
-
       <main className="relative z-10">
         {/* Hero Section */}
         <section className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center px-5 py-16 sm:px-10 sm:py-20 lg:px-16">
@@ -961,3 +919,4 @@ function Home({ setCurrentPage, isPro }) {
 }
 
 export default Home;
+}
