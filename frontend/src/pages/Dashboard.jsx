@@ -1136,7 +1136,7 @@ function Dashboard({
                   className={`rounded-full px-2.5 py-0.5 text-xs ${
                     activeTab === tab.id
                       ? "bg-white/20 text-white"
-                      : "bg-slate-850 text-slate-400"
+                      : "bg-slate-800 text-slate-400"
                   }`}
                   style={{ zIndex: 10 }}
                 >
@@ -1219,6 +1219,7 @@ function Dashboard({
                   </p>
                   <p className="text-xs leading-6 text-slate-300 font-medium whitespace-pre-line">
                     {selectedItem.details ||
+                    
                       selectedItem.content ||
                       "Operational structural logs generated. File binary content buffered and verified safe."}
                   </p>
@@ -1295,5 +1296,7 @@ function Dashboard({
     </motion.div>
   );
 
+}
 
 export default Dashboard;
+
