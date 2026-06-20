@@ -404,7 +404,7 @@ function App() {
         />
 
         {/* Dynamic Route Switch Shell */}
-        <main>
+        <main className="overflow-x-hidden">
           {currentPage === "home" && (
             <Home setCurrentPage={setCurrentPage} isPro={isPro} />
           )}

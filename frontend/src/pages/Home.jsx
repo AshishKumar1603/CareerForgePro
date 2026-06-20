@@ -20,7 +20,7 @@ function Home({ setCurrentPage, isPro }) {
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center px-5 py-16 sm:px-10 sm:py-20 lg:px-16">
+        <section className="mx-auto max-w-7xl grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center px-5 py-16 sm:px-10 sm:py-20 lg:px-16">
           <div className="max-w-2xl">
             <motion.div
               className="inline-flex items-center gap-2 rounded-full bg-white/90 dark:bg-slate-900/80 px-4 py-2 shadow-lg shadow-violet-500/10 border border-violet-200/70 dark:border-violet-500/30"
