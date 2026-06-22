@@ -223,7 +223,7 @@
 
 // export default Builder;
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   PlusCircle,
@@ -232,221 +232,223 @@ import {
   Mail,
   Star,
   Lock,
+  Search,
+  FileText,
+  Terminal,
+  Cpu,
+  ChevronRight,
+  EyeOff,
 } from "lucide-react";
 
-const steps = [
-  {
-    title: "Create Resume",
-    desc: "Build your resume with live preview",
-    icon: FileText,
-    gradient: "from-violet-500 to-fuchsia-500",
-    bg: "from-violet-500/5 to-fuchsia-500/5 dark:from-violet-900/10 dark:to-fuchsia-900/10",
-    border: "border-violet-200/60 dark:border-violet-800/40",
-    page: "resume",
-    pro: false,
-  },
-  {
-    title: "Analyze Job Description",
-    desc: "Paste JD and extract key keywords",
-    icon: Search,
-    gradient: "from-blue-500 to-cyan-500",
-    bg: "from-blue-500/5 to-cyan-500/5 dark:from-blue-900/10 dark:to-cyan-900/10",
-    border: "border-blue-200/60 dark:border-blue-800/40",
-    page: "jd-analysis",
-    pro: true,
-  },
-  {
-    title: "Improve Resume",
-    desc: "AI rewrites your content",
-    icon: "✨",
-    gradient: "from-amber-500 to-orange-500",
-    bg: "from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20",
-    border: "border-amber-200 dark:border-amber-700/50",
-    page: "improve-resume",
-    pro: true,
-  },
-  {
-    title: "Check ATS Score",
-    desc: "See how well your resume matches",
-    icon: BarChart3,
-    gradient: "from-emerald-500 to-teal-500",
-    bg: "from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20",
-    border: "border-emerald-200 dark:border-emerald-700/50",
-    page: "ats-score",
-    pro: false,
-  },
-  {
-    title: "Generate Cover Letter",
-    desc: "Create a matching cover letter",
-    icon: "💌",
-    gradient: "from-pink-500 to-rose-500",
-    bg: "from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-900/20",
-    border: "border-pink-200 dark:border-pink-700/50",
-    page: "cover-letter",
-    pro: true,
-  },
-  {
-    title: "My Dashboard",
-    desc: "View and manage saved resumes",
-    icon: "🗂️",
-    gradient: "from-indigo-500 to-violet-500",
-    bg: "from-indigo-500/5 to-violet-500/5 dark:from-indigo-900/10 dark:to-indigo-900/10",
-    border: "border-indigo-200/60 dark:border-indigo-800/40",
-    page: "dashboard",
-    pro: false,
-  },
-  {
-    title: "Upgrade to Pro",
-    desc: "Unlock templates & unlimited builds",
-    icon: Star,
-    gradient: "from-yellow-500 to-amber-500",
-    bg: "from-yellow-500/10 to-amber-500/10 dark:from-yellow-900/20 dark:to-amber-900/20",
-    border: "border-yellow-200 dark:border-yellow-800/60",
-    page: "pricing",
-    pro: false,
-  },
-];
+export default function Builder({ setCurrentPage, isPro }) {
+  const [selectedStep, setSelectedStep] = useState(null);
 
-function Builder({ setCurrentPage, isPro }) {
-  // Container animation variants for clean progressive loading
+  const steps = [
+    {
+      title: "Create Resume",
+      desc: "Build your resume with live preview",
+      icon: <FileText className="w-5 h-5 text-violet-400" />,
+      badge: "Essential",
+      badgeColor: "bg-violet-500/10 text-violet-400 border-violet-500/20",
+      page: "resume",
+      pro: false,
+    },
+    {
+      title: "Analyze Job Description",
+      desc: "Paste JD and extract key keywords",
+      icon: <Search className="w-5 h-5 text-blue-400" />,
+      badge: "Keyword Sync",
+      badgeColor: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+      page: "jd-analysis",
+      pro: true,
+    },
+    {
+      title: "Improve Resume",
+      desc: "AI rewrites your content",
+      icon: <Sparkles className="w-5 h-5 text-amber-400" />,
+      badge: "AI Transform",
+      badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+      page: "improve-resume",
+      pro: true,
+    },
+    {
+      title: "Check ATS Score",
+      desc: "See how well your resume matches",
+      icon: <BarChart3 className="w-5 h-5 text-emerald-400" />,
+      badge: "ATS Matrix",
+      badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+      page: "ats-score",
+      pro: false,
+    },
+    {
+      title: "Generate Cover Letter",
+      desc: "Create a matching cover letter",
+      icon: <Mail className="w-5 h-5 text-pink-400" />,
+      badge: "Synthesizer",
+      badgeColor: "bg-pink-500/10 text-pink-400 border-pink-500/20",
+      page: "cover-letter",
+      pro: true,
+    },
+    {
+      title: "My Dashboard",
+      desc: "View and manage saved resumes",
+      icon: <Terminal className="w-5 h-5 text-indigo-400" />,
+      badge: "Data logs",
+      badgeColor: "bg-indigo-500/10 text-indigo-400 border-indigo-500/20",
+      page: "dashboard",
+      pro: false,
+    },
+    {
+      title: "Upgrade to Pro",
+      desc: "Unlock templates & unlimited builds",
+      icon: <Star className="w-5 h-5 text-yellow-400" />,
+      badge: "Premium",
+      badgeColor: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
+      page: "pricing",
+      pro: false,
+    },
+  ];
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.08 },
     },
   };
 
-  return (
-    <motion.div
-      className="min-h-screen bg-gradient-to-br from-violet-50 via-pink-50/40 to-violet-100 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-all duration-300"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
-    >
-      {/* Local Navbar rendering is removed because App.jsx renders it globally now */}
+  const itemVariants = {
+    hidden: { y: 15, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.4 } },
+  };
 
-      <div className="max-w-7xl mx-auto">
-        {/* Header Block Section */}
-        <motion.div
-          className="text-center mb-12"
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="inline-block px-4 py-1.5 rounded-full bg-violet-100 dark:bg-violet-900/50 text-violet-700 dark:text-violet-300 text-sm font-medium mb-4">
-            Workspace
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-bold text-gray-900 dark:text-white mb-3">
-            CareerForge{" "}
-            <span className="bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent">
-              Workspace
-            </span>
-          </h1>
-          <p className="text-slate-400 text-base sm:text-lg max-w-xl mx-auto font-medium">
-            Supercharge your job application workflow step-by-step with AI
-            tools.
-          </p>
-        </motion.div>
+  const handleNodeAction = (tool) => {
+    if (tool.pro && !isPro) {
+      setSelectedStep(tool.title);
+      return;
+    }
+    setCurrentPage(tool.page);
+  };
 
   return (
     <div className="min-h-[calc(100vh-68px)] bg-slate-950 text-slate-100 relative overflow-hidden px-4 sm:px-8 py-12 selection:bg-indigo-500/30">
-      {/* Dynamic Background Ambient Shaders */}
+      {/* Background Ambient Glows */}
       <div className="absolute top-20 left-10 h-96 w-96 rounded-full bg-indigo-500/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-20 right-10 h-80 w-80 rounded-full bg-purple-500/5 blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto space-y-10 relative z-10">
         {/* Core Header Console Panel */}
-        <header className="bg-slate-900/20 border border-slate-900 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <header className="bg-slate-900/20 border border-slate-900 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 backdrop-blur-sm">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 rounded-md bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-400">
+            <div className="inline-flex items-center gap-1.5 rounded-md bg-indigo-500/10 border border-indigo-500/20 px-2.5 py-0.5 text-xs font-bold text-indigo-400 font-mono">
               <Terminal className="h-3.5 w-3.5" /> Pipeline Command Terminal
             </div>
             <h1 className="text-3xl font-black tracking-tight text-slate-100 md:text-4xl">
               Career Forge Control Matrix
             </h1>
-            <p className="text-sm text-slate-400 max-w-xl">
+            <p className="text-xs text-slate-400 max-w-xl font-medium leading-relaxed">
               Select an optimization node to design, improve, align, or generate
-              critical engineering recruitment resources.
+              critical recruitment workflows.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 bg-slate-950 border border-slate-900 rounded-2xl p-4 shrink-0">
+          <div className="flex items-center gap-3 bg-slate-950 border border-slate-900 rounded-2xl p-4 shrink-0 font-mono">
             <div className="h-10 w-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center">
               <Cpu className="w-5 h-5 text-purple-400" />
             </div>
             <div>
-              <p className="text-xs text-slate-500 font-mono font-bold uppercase">
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
                 System Cluster
               </p>
-              <p className="text-xs font-bold text-slate-200">
+              <p className="text-[11px] font-bold text-slate-200">
                 Nodes Connected & Balanced
               </p>
             </div>
           </div>
         </header>
 
-        {/* Tools Dynamic Grid Layout */}
+        {/* Dynamic Tools Grid Block */}
         <motion.section
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {}
-          {tools.map((tool, idx) => (
+          {steps.map((tool, idx) => (
             <motion.div
               key={idx}
               variants={itemVariants}
-              onClick={tool.action}
+              onClick={() => handleNodeAction(tool)}
               whileHover={{ y: -6, borderColor: "rgba(99, 102, 241, 0.4)" }}
-              className="group relative bg-slate-900/40 border border-slate-900 rounded-3xl p-6 cursor-pointer overflow-hidden transition-all duration-300 flex flex-col justify-between min-h-[220px] shadow-xl hover:shadow-[0_15px_30px_rgba(0,0,0,0.4)]"
+              className="group relative bg-slate-900/40 border border-slate-900 rounded-3xl p-6 cursor-pointer overflow-hidden transition-all duration-300 flex flex-col justify-between min-h-[210px] shadow-xl hover:shadow-[0_15px_30px_rgba(0,0,0,0.5)]"
             >
-              {/* Subtle background card hover shader */}
-              <div className="absolute -right-10 -top-10 w-28 h-28 bg-indigo-500/5 blur-2xl group-hover:bg-indigo-500/10 transition-all duration-500 rounded-full pointer-events-none" />
+              <div className="absolute -right-10 -top-10 w-28 h-28 bg-indigo-500/5 blur-2xl group-hover:bg-indigo-500/10 rounded-full pointer-events-none" />
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="h-10 w-10 rounded-xl bg-slate-950 border border-slate-800/80 shadow-inner flex items-center justify-center group-hover:scale-105 transition-all duration-300">
+                  <div className="h-10 w-10 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center group-hover:scale-105 transition-transform">
                     {tool.icon}
                   </div>
-                  <span
-                    className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${tool.badgeColor}`}
-                  >
-                    {tool.badge}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {tool.pro && !isPro && (
+                      <span className="flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] bg-amber-500/10 border border-amber-500/20 text-amber-400 font-bold font-mono">
+                        <Lock className="w-2.5 h-2.5" /> LOCK
+                      </span>
+                    )}
+                    <span
+                      className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold border ${tool.badgeColor}`}
+                    >
+                      {tool.badge}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="space-y-1.5">
-                  <h3 className="text-base font-bold text-slate-100 group-hover:text-indigo-400 transition-colors duration-200">
+                  <h3 className="text-sm font-bold text-slate-100 group-hover:text-indigo-400 transition-colors">
                     {tool.title}
                   </h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">
+                  <p className="text-xs text-slate-400 leading-relaxed font-medium">
                     {tool.desc}
                   </p>
                 </div>
               </div>
 
-        {/* Coming Soon Drawer Element */}
+              <div className="pt-4 border-t border-slate-950 mt-4 flex items-center justify-between text-[10px] font-bold text-slate-500 group-hover:text-indigo-400 transition-colors font-mono tracking-wider">
+                <span>INITIALIZE_NODE</span>
+                <ChevronRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+              </div>
+            </motion.div>
+          ))}
+        </motion.section>
+
+        {/* Pro Lock Alert Drawer */}
         {selectedStep && (
           <motion.div
-            className="mt-10 max-w-7xl mx-auto bg-white/90 dark:bg-gray-800/90 rounded-3xl p-8 shadow-xl backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50"
-            initial={{ opacity: 0, y: 20 }}
+            className="rounded-3xl border border-amber-500/20 bg-amber-500/5 p-6 backdrop-blur-md flex flex-col sm:flex-row items-center justify-between gap-4"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h2 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
-              {selectedStep}
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400">
-              This feature is coming soon. Stay tuned! 🚀
-            </p>
+            <div className="space-y-1">
+              <h3 className="text-sm font-bold text-amber-400 flex items-center gap-2">
+                ⚠️ Premium Access Restriction
+              </h3>
+              <p className="text-xs text-slate-400 font-medium">
+                The node{" "}
+                <span className="text-slate-200 font-bold font-mono">
+                  "{selectedStep}"
+                </span>{" "}
+                requires a Pro upgrade activation pass.
+              </p>
+            </div>
+            <button
+              onClick={() => setCurrentPage("pricing")}
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-600 text-slate-950 text-xs font-black uppercase tracking-wider shadow-md hover:opacity-95 transition active:scale-95"
+            >
+              Unlock Terminal
+            </button>
           </motion.div>
         )}
       </div>
     </div>
   );
 }
-
-export default Builder;
