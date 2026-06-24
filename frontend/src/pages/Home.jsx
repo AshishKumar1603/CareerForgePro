@@ -1032,12 +1032,318 @@
 
 // export default Home;
 
+// import React from "react";
+// import { motion } from "framer-motion";
+// import {
+//   Sparkles,
+//   ArrowRight,
+//   Activity,
+//   BookOpen,
+//   FileText,
+//   ShieldCheck,
+// } from "lucide-react";
+
+// function Home({ setCurrentPage, isPro }) {
+//   return (
+//     <motion.div
+//       className="w-full min-h-[calc(100vh-68px)] bg-gradient-to-br from-slate-50 via-violet-50 to-pink-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 overflow-y-auto flex flex-col justify-start pb-20"
+//       initial={{ opacity: 0 }}
+//       animate={{ opacity: 1 }}
+//       transition={{ duration: 0.5 }}
+//     >
+//       {/* Ambient background glows */}
+//       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+//         <div className="absolute left-[-10%] top-20 h-96 w-96 rounded-full bg-violet-400/10 dark:bg-violet-600/5 blur-3xl" />
+//         <div className="absolute right-[-10%] top-1/4 h-[500px] w-[500px] rounded-full bg-fuchsia-400/10 dark:bg-fuchsia-600/5 blur-3xl" />
+//       </div>
+
+//       <main className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-16 mt-6 sm:mt-12 pb-10">
+//         {/* ── Hero Section ── */}
+//         <section className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center py-12 sm:py-16">
+//           {/* Left column */}
+//           <div className="max-w-2xl">
+//             <motion.div
+//               className="inline-flex items-center gap-2 rounded-full bg-white/95 dark:bg-slate-900/80 px-4 py-2 border border-violet-200/80 dark:border-slate-800 shadow-sm mb-6"
+//               initial={{ y: 20, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.1 }}
+//             >
+//               <Sparkles className="w-4 h-4 text-violet-600 dark:text-violet-400 shrink-0" />
+//               <span className="text-violet-600 dark:text-violet-400 font-bold text-xs tracking-wider uppercase">
+//                 AI Resume Builder Hub
+//               </span>
+//               {isPro && (
+//                 <span className="bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 text-[9px] font-black rounded-full uppercase tracking-widest">
+//                   PRO
+//                 </span>
+//               )}
+//             </motion.div>
+
+//             <motion.h1
+//               className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 dark:text-white leading-[1.1] mb-6"
+//               initial={{ y: 20, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.2 }}
+//             >
+//               Create a resume that{" "}
+//               <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-indigo-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400">
+//                 passes ATS
+//               </span>{" "}
+//               and gets noticed.
+//             </motion.h1>
+
+//             <motion.p
+//               className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed mb-8"
+//               initial={{ y: 20, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.3 }}
+//             >
+//               Boost your career with real-time suggestions, AI keyword
+//               extraction, and instant PDF export.
+//             </motion.p>
+
+//             <motion.div
+//               className="flex flex-wrap gap-4"
+//               initial={{ y: 20, opacity: 0 }}
+//               animate={{ y: 0, opacity: 1 }}
+//               transition={{ delay: 0.4 }}
+//             >
+//               <button
+//                 onClick={() => setCurrentPage("builder")}
+//                 className="group flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90 text-white px-8 py-3.5 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-600/20 transition-all active:scale-95"
+//               >
+//                 Start building now
+//                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+//               </button>
+//               <button
+//                 onClick={() => setCurrentPage("pricing")}
+//                 className="bg-white/80 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 px-8 py-3.5 rounded-2xl font-bold text-sm shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-95"
+//               >
+//                 Explore plans
+//               </button>
+//             </motion.div>
+//           </div>
+
+//           {/* Right column — ATS metrics card */}
+//           <motion.div
+//             className="w-full max-w-md mx-auto lg:mx-0"
+//             initial={{ opacity: 0, x: 30 }}
+//             animate={{ opacity: 1, x: 0 }}
+//             transition={{ delay: 0.3, duration: 0.6 }}
+//           >
+//             <div className="rounded-[2rem] border border-slate-200/80 dark:border-slate-800 bg-white/90 dark:bg-slate-900/60 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-5">
+//               <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+//                 <div>
+//                   <h2 className="text-base font-extrabold text-slate-950 dark:text-white">
+//                     Real-time Metrics
+//                   </h2>
+//                   <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">
+//                     Auto-aligns matching parameters
+//                   </p>
+//                 </div>
+//                 <Activity className="w-5 h-5 text-violet-500 shrink-0" />
+//               </div>
+
+//               <div className="space-y-4">
+//                 {[
+//                   {
+//                     title: "ATS Match Score",
+//                     val: "92%",
+//                     progress: "w-[92%]",
+//                     color: "bg-violet-500",
+//                   },
+//                   {
+//                     title: "Readability Rating",
+//                     val: "A+",
+//                     progress: "w-[95%]",
+//                     color: "bg-emerald-500",
+//                   },
+//                   {
+//                     title: "Keyword Strength",
+//                     val: "High",
+//                     progress: "w-[88%]",
+//                     color: "bg-pink-500",
+//                   },
+//                 ].map((item) => (
+//                   <div
+//                     key={item.title}
+//                     className="bg-slate-50 dark:bg-slate-950/40 border border-slate-100 dark:border-slate-900/50 p-4 rounded-2xl"
+//                   >
+//                     <div className="flex justify-between items-baseline mb-2">
+//                       <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+//                         {item.title}
+//                       </span>
+//                       <span className="font-extrabold text-sm text-slate-900 dark:text-violet-400">
+//                         {item.val}
+//                       </span>
+//                     </div>
+//                     <div className="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden">
+//                       <div
+//                         className={`h-full ${item.color} ${item.progress} rounded-full`}
+//                       />
+//                     </div>
+//                   </div>
+//                 ))}
+//               </div>
+//             </div>
+//           </motion.div>
+//         </section>
+
+//         {/* ── Feature Grid ── */}
+//         <section
+//           id="features"
+//           className="py-8 border-t border-slate-200 dark:border-slate-900/60"
+//         >
+//           <h2 className="text-2xl sm:text-3xl font-black text-center mb-10 text-slate-900 dark:text-white">
+//             Why Choose CareerForge?
+//           </h2>
+//           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+//             {[
+//               {
+//                 title: "Smart Builder Node",
+//                 desc: "Tailor education, work experience, and projects using live AI optimization.",
+//                 icon: <FileText className="w-5 h-5 text-violet-500" />,
+//               },
+//               {
+//                 title: "JD Semantic Parsing",
+//                 desc: "Extract crucial keyword requirements from job descriptions directly into your resume.",
+//                 icon: <BookOpen className="w-5 h-5 text-indigo-500" />,
+//               },
+//               {
+//                 title: "ATS-Ready PDF Export",
+//                 desc: "Instantly export clean, single-page layouts perfectly formatted for corporate ATS parsers.",
+//                 icon: <ShieldCheck className="w-5 h-5 text-fuchsia-500" />,
+//               },
+//             ].map((feature, idx) => (
+//               <motion.div
+//                 key={idx}
+//                 className="p-6 sm:p-8 rounded-[2rem] bg-white/60 dark:bg-slate-900/30 border border-slate-200/60 dark:border-slate-900 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[180px]"
+//                 initial={{ opacity: 0, y: 30 }}
+//                 whileInView={{ opacity: 1, y: 0 }}
+//                 transition={{ duration: 0.5, delay: idx * 0.1 }}
+//                 viewport={{ once: true }}
+//               >
+//                 <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200/20 dark:border-slate-800 flex items-center justify-center mb-4 shrink-0">
+//                   {feature.icon}
+//                 </div>
+//                 <div className="space-y-1.5">
+//                   <h3 className="font-bold text-base text-slate-950 dark:text-white">
+//                     {feature.title}
+//                   </h3>
+//                   <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+//                     {feature.desc}
+//                   </p>
+//                 </div>
+//               </motion.div>
+//             ))}
+//           </div>
+//         </section>
+
+//         {/* ── How It Works ── */}
+//         <section className="py-8 border-t border-slate-200 dark:border-slate-900/60">
+//           <h2 className="text-2xl sm:text-3xl font-black text-center mb-10 text-slate-900 dark:text-white">
+//             How It Works
+//           </h2>
+//           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+//             {[
+//               { name: "Create Resume", page: "builder" },
+//               { name: "Analyze JD", page: "jd-analysis" },
+//               { name: "Improve Content", page: "improve-resume" },
+//               { name: "Check ATS Score", page: "ats-score" },
+//               { name: "Cover Letter", page: "cover-letter" },
+//               { name: "Upgrade Pro", page: "pricing" },
+//               { name: "Dashboard", page: "dashboard" },
+//             ].map((step, index) => (
+//               <motion.div
+//                 key={step.name}
+//                 onClick={() => setCurrentPage(step.page)}
+//                 className="p-4 rounded-2xl border border-violet-100/60 dark:border-slate-800 bg-white/80 dark:bg-slate-900/40 cursor-pointer hover:shadow-md transition-all duration-300 text-center group"
+//                 initial={{ scale: 0.9, opacity: 0 }}
+//                 whileInView={{ scale: 1, opacity: 1 }}
+//                 whileHover={{ y: -4 }}
+//                 transition={{ type: "spring", delay: index * 0.04 }}
+//                 viewport={{ once: true }}
+//               >
+//                 <div className="w-9 h-9 mx-auto mb-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white flex items-center justify-center font-bold text-sm shadow-md">
+//                   {index + 1}
+//                 </div>
+//                 <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 leading-tight group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+//                   {step.name}
+//                 </h3>
+//               </motion.div>
+//             ))}
+//           </div>
+//         </section>
+
+//         {/* ── Footer ── */}
+//         <footer className="border-t border-slate-200 dark:border-slate-800 pt-10 pb-4">
+//           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+//             <div>
+//               <h2 className="text-xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent mb-3">
+//                 CareerForge
+//               </h2>
+//               <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+//                 Build ATS-friendly resumes with AI-powered insights and land
+//                 your dream job.
+//               </p>
+//             </div>
+//             <div>
+//               <h3 className="text-sm font-bold mb-3 text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+//                 Quick Links
+//               </h3>
+//               <ul className="space-y-2 text-slate-500 dark:text-slate-400 text-sm">
+//                 <li
+//                   onClick={() =>
+//                     document
+//                       .getElementById("features")
+//                       ?.scrollIntoView({ behavior: "smooth" })
+//                   }
+//                   className="hover:text-violet-500 cursor-pointer transition-colors"
+//                 >
+//                   Features
+//                 </li>
+//                 <li
+//                   onClick={() => setCurrentPage("pricing")}
+//                   className="hover:text-violet-500 cursor-pointer transition-colors"
+//                 >
+//                   Pricing
+//                 </li>
+//                 <li
+//                   onClick={() => setCurrentPage("dashboard")}
+//                   className="hover:text-violet-500 cursor-pointer transition-colors"
+//                 >
+//                   Dashboard
+//                 </li>
+//               </ul>
+//             </div>
+//             <div>
+//               <h3 className="text-sm font-bold mb-3 text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+//                 Contact
+//               </h3>
+//               <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">
+//                 support@careerforge.ai
+//               </p>
+//               <p className="text-slate-500 dark:text-slate-400 text-sm">
+//                 Chennai, Tamil Nadu
+//               </p>
+//             </div>
+//           </div>
+//           <div className="text-center text-slate-400 text-xs border-t border-slate-200 dark:border-slate-800 pt-5">
+//             © 2026 CareerForge. All rights reserved.
+//           </div>
+//         </footer>
+//       </main>
+//     </motion.div>
+//   );
+// }
+
+// export default Home;
+
 import React from "react";
 import { motion } from "framer-motion";
 import {
   Sparkles,
   ArrowRight,
-  CheckCircle,
   Activity,
   BookOpen,
   FileText,
@@ -1047,30 +1353,29 @@ import {
 function Home({ setCurrentPage, isPro }) {
   return (
     <motion.div
-      className="w-full min-h-[calc(100vh-68px)] bg-gradient-to-br from-slate-50 via-violet-50 to-pink-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 overflow-y-auto shrink-0 flex flex-col justify-start pb-20"
+      className="w-full min-h-[calc(100vh-68px)] bg-gradient-to-br from-slate-50 via-violet-50 to-pink-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 overflow-y-auto flex flex-col justify-start pt-24 sm:pt-28 pb-20 relative selection:bg-violet-500/30"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Background Decorative Ambient Shaders */}
+      {/* Ambient background glows */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute left-[-10%] top-20 h-96 w-96 rounded-full bg-violet-400/10 dark:bg-violet-600/5 blur-3xl" />
         <div className="absolute right-[-10%] top-1/4 h-[500px] w-[500px] rounded-full bg-fuchsia-400/10 dark:bg-fuchsia-600/5 blur-3xl" />
       </div>
 
-      <main className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-16 mt-6 sm:mt-12 shrink-0">
-        {}
-        {/* Hero Section */}
-        <section className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16 shrink-0">
-          {/* Left Column Text details */}
-          <div className="flex-1 space-y-6 sm:space-y-8 text-left shrink-0">
+      <main className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-16 mt-2 pb-10">
+        {/* ── Hero Section ── */}
+        <section className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr] items-center py-6 sm:py-12">
+          {/* Left column */}
+          <div className="max-w-2xl">
             <motion.div
-              className="inline-flex items-center gap-2 rounded-full bg-white/95 dark:bg-slate-900/80 px-4.5 py-2 border border-violet-200/80 dark:border-slate-800 shadow-sm shrink-0"
+              className="inline-flex items-center gap-2 rounded-full bg-white/95 dark:bg-slate-900/80 px-4 py-2 border border-violet-200/80 dark:border-slate-800 shadow-sm mb-6"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.1 }}
             >
-              <Sparkles className="w-4 h-4 text-violet-600 dark:text-violet-400" />
+              <Sparkles className="w-4 h-4 text-violet-600 dark:text-violet-400 shrink-0" />
               <span className="text-violet-600 dark:text-violet-400 font-bold text-xs tracking-wider uppercase">
                 AI Resume Builder Hub
               </span>
@@ -1081,54 +1386,73 @@ function Home({ setCurrentPage, isPro }) {
               )}
             </motion.div>
 
-            <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 dark:text-white leading-[1.1] shrink-0">
+            <motion.h1
+              className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 dark:text-white leading-[1.1] mb-6"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
               Create a resume that{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-indigo-600 to-fuchsia-600 dark:from-violet-400 dark:to-fuchsia-400">
                 passes ATS
               </span>{" "}
               and gets noticed.
-            </h1>
+            </motion.h1>
 
-            <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed shrink-0">
-              Boost your career progression with real-time suggestions matching
-              professional criteria. Extract high-impact metrics keywords
-              dynamically and export flawless PDFs instantly.
-            </p>
+            <motion.p
+              className="text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-xl leading-relaxed mb-8"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              Boost your career with real-time suggestions, AI keyword
+              extraction, and instant PDF export.
+            </motion.p>
 
-            <div className="flex flex-wrap gap-4 pt-2 shrink-0">
+            <motion.div
+              className="flex flex-wrap gap-4"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
               <button
                 onClick={() => setCurrentPage("builder")}
-                className="group flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-95 text-white px-8 py-4 rounded-2xl font-extrabold text-sm shadow-lg shadow-indigo-600/10 transition active:scale-95"
+                className="group flex items-center gap-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90 text-white px-8 py-3.5 rounded-2xl font-bold text-sm shadow-lg shadow-indigo-600/20 transition-all active:scale-95"
               >
                 Start building now
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
               <button
                 onClick={() => setCurrentPage("pricing")}
-                className="bg-white/80 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 px-8 py-4 rounded-2xl font-bold text-sm shadow-sm hover:bg-slate-50 dark:hover:bg-slate-850 transition active:scale-95"
+                className="bg-white/80 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 px-8 py-3.5 rounded-2xl font-bold text-sm shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-all active:scale-95"
               >
                 Explore plans
               </button>
-            </div>
+            </motion.div>
           </div>
 
+          {/* Right column — ATS metrics card */}
           {}
-          {/* Right Column Interactive Score Mock */}
-          <div className="flex-1 w-full max-w-lg shrink-0">
-            <div className="rounded-[2rem] border border-slate-200/80 dark:border-slate-800 bg-white/90 dark:bg-slate-900/60 p-6 sm:p-8 shadow-2xl backdrop-blur-xl shrink-0 space-y-6">
-              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-850 pb-4">
+          <motion.div
+            className="w-full max-w-md mx-auto lg:mx-0"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+          >
+            <div className="rounded-[2rem] border border-slate-200/80 dark:border-slate-800 bg-white/90 dark:bg-slate-900/60 p-6 sm:p-8 shadow-2xl backdrop-blur-xl space-y-5">
+              <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
                 <div>
-                  <h2 className="text-lg font-extrabold text-slate-950 dark:text-white">
-                    Real-time Metrics insights
+                  <h2 className="text-base font-extrabold text-slate-950 dark:text-white">
+                    Real-time Metrics
                   </h2>
-                  <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+                  <p className="text-xs text-slate-400 dark:text-slate-500 font-medium mt-0.5">
                     Auto-aligns matching parameters
                   </p>
                 </div>
                 <Activity className="w-5 h-5 text-violet-500 shrink-0" />
               </div>
 
-              <div className="space-y-5">
+              <div className="space-y-4">
                 {[
                   {
                     title: "ATS Match Score",
@@ -1143,15 +1467,15 @@ function Home({ setCurrentPage, isPro }) {
                     color: "bg-emerald-500",
                   },
                   {
-                    title: "Keyword strength",
-                    val: "High Strength",
+                    title: "Keyword Strength",
+                    val: "High",
                     progress: "w-[88%]",
                     color: "bg-pink-500",
                   },
                 ].map((item) => (
                   <div
                     key={item.title}
-                    className="bg-slate-50 dark:bg-slate-950/40 border border-slate-100 dark:border-slate-900/50 p-4 rounded-2xl shrink-0"
+                    className="bg-slate-50 dark:bg-slate-950/40 border border-slate-100 dark:border-slate-900/50 p-4 rounded-2xl"
                   >
                     <div className="flex justify-between items-baseline mb-2">
                       <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
@@ -1170,49 +1494,155 @@ function Home({ setCurrentPage, isPro }) {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </section>
 
+        {/* ── Feature Grid ── */}
         {}
-        {/* Feature Grid Block */}
-        <section className="py-12 border-t border-slate-200 dark:border-slate-900/60 shrink-0">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 shrink-0">
+        <section
+          id="features"
+          className="py-8 border-t border-slate-200 dark:border-slate-900/60"
+        >
+          <h2 className="text-2xl sm:text-3xl font-black text-center mb-10 text-slate-900 dark:text-white">
+            Why Choose CareerForge?
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
               {
                 title: "Smart Builder Node",
-                desc: "Tailor education credentials, custom work experience, and structured projects using live AI optimization sheets.",
+                desc: "Tailor education, work experience, and projects using live AI optimization.",
                 icon: <FileText className="w-5 h-5 text-violet-500" />,
               },
               {
                 title: "JD Semantic Parsing",
-                desc: "Map target roles constraints and extract crucial keyword requirements directly into professional templates.",
+                desc: "Extract crucial keyword requirements from job descriptions directly into your resume.",
                 icon: <BookOpen className="w-5 h-5 text-indigo-500" />,
               },
               {
-                title: "Vector PDF Compilation",
-                desc: "Instantly compile single-page clean layout structures formatted perfectly for corporate ATS parsers.",
+                title: "ATS-Ready PDF Export",
+                desc: "Instantly export clean, single-page layouts perfectly formatted for corporate ATS parsers.",
                 icon: <ShieldCheck className="w-5 h-5 text-fuchsia-500" />,
               },
             ].map((feature, idx) => (
-              <div
+              <motion.div
                 key={idx}
-                className="p-6 sm:p-8 rounded-[2rem] bg-white/60 dark:bg-slate-900/30 border border-slate-200/60 dark:border-slate-900 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between shrink-0 min-h-[180px]"
+                className="p-6 sm:p-8 rounded-[2rem] bg-white/60 dark:bg-slate-900/30 border border-slate-200/60 dark:border-slate-900 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col justify-between min-h-[180px]"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                viewport={{ once: true }}
               >
-                <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200/10 flex items-center justify-center mb-4 shrink-0">
+                <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-950 border border-slate-200/20 dark:border-slate-800 flex items-center justify-center mb-4 shrink-0">
                   {feature.icon}
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <h3 className="font-bold text-base text-slate-950 dark:text-white">
                     {feature.title}
                   </h3>
-                  <p className="text-slate-500 dark:text-slate-400 text-xs leading-relaxed">
+                  <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
                     {feature.desc}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>
+
+        {/* ── How It Works ── */}
+        {}
+        <section className="py-8 border-t border-slate-200 dark:border-slate-900/60">
+          <h2 className="text-2xl sm:text-3xl font-black text-center mb-10 text-slate-900 dark:text-white">
+            How It Works
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+            {[
+              { name: "Create Resume", page: "builder" },
+              { name: "Analyze JD", page: "jd-analysis" },
+              { name: "Improve Content", page: "improve-resume" },
+              { name: "Check ATS Score", page: "ats-score" },
+              { name: "Cover Letter", page: "cover-letter" },
+              { name: "Upgrade Pro", page: "pricing" },
+              { name: "Dashboard", page: "dashboard" },
+            ].map((step, index) => (
+              <motion.div
+                key={step.name}
+                onClick={() => setCurrentPage(step.page)}
+                className="p-4 rounded-2xl border border-violet-100/60 dark:border-slate-800 bg-white/80 dark:bg-slate-900/40 cursor-pointer hover:shadow-md transition-all duration-300 text-center group"
+                initial={{ scale: 0.9, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                whileHover={{ y: -4 }}
+                transition={{ type: "spring", delay: index * 0.04 }}
+                viewport={{ once: true }}
+              >
+                <div className="w-9 h-9 mx-auto mb-3 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 text-white flex items-center justify-center font-bold text-sm shadow-md">
+                  {index + 1}
+                </div>
+                <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 leading-tight group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                  {step.name}
+                </h3>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── Footer ── */}
+        {}
+        <footer className="border-t border-slate-200 dark:border-slate-800 pt-10 pb-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div>
+              <h2 className="text-xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-500 bg-clip-text text-transparent mb-3">
+                CareerForge
+              </h2>
+              <p className="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
+                Build ATS-friendly resumes with AI-powered insights and land
+                your dream job.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-bold mb-3 text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+                Quick Links
+              </h3>
+              <ul className="space-y-2 text-slate-500 dark:text-slate-400 text-sm">
+                <li
+                  onClick={() =>
+                    document
+                      .getElementById("features")
+                      ?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="hover:text-violet-500 cursor-pointer transition-colors"
+                >
+                  Features
+                </li>
+                <li
+                  onClick={() => setCurrentPage("pricing")}
+                  className="hover:text-violet-500 cursor-pointer transition-colors"
+                >
+                  Pricing
+                </li>
+                <li
+                  onClick={() => setCurrentPage("dashboard")}
+                  className="hover:text-violet-500 cursor-pointer transition-colors"
+                >
+                  Dashboard
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-bold mb-3 text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+                Contact
+              </h3>
+              <p className="text-slate-500 dark:text-slate-400 text-sm mb-1">
+                support@careerforge.ai
+              </p>
+              <p className="text-slate-500 dark:text-slate-400 text-sm">
+                Chennai, Tamil Nadu
+              </p>
+            </div>
+          </div>
+          <div className="text-center text-slate-400 text-xs border-t border-slate-200 dark:border-slate-800 pt-5">
+            © 2026 CareerForge. All rights reserved.
+          </div>
+        </footer>
       </main>
     </motion.div>
   );
