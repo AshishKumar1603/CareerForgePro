@@ -654,9 +654,11 @@ import {
   BarChart3,
   Mail,
   Star,
-  LayoutDashboard,
   Lock,
 } from "lucide-react";
+
+export default function Builder({ setCurrentPage, isPro }) {
+  const [selectedStep, setSelectedStep] = useState(null);
 
 const steps = [
   {
@@ -841,7 +843,7 @@ function Builder({ setCurrentPage, isPro }) {
                       {step.desc}
                     </p>
                   </div>
-                </div>
+                )}
 
                 {/* Arrow slide-in indicator */}
                 <div className="absolute bottom-4 right-4 flex h-6 w-6 items-center justify-center rounded-full bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 text-slate-400 opacity-0 translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
@@ -868,7 +870,7 @@ function Builder({ setCurrentPage, isPro }) {
           </motion.div>
         )}
       </div>
-    </motion.div>
+    </div>
   );
 }
 

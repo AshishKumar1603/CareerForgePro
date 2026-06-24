@@ -1585,10 +1585,8 @@ function Dashboard({
   const currentTabCount = tabs.find((t) => t.id === activeTab)?.count || 0;
 
   return (
-    /* OUTER WRAPPER: Fixed heights constraints scroll handler */
     <div className="w-full h-[calc(100vh-68px)] overflow-y-auto scrollbar-thin">
-      /* INNER CONTENT GUARD: Stop flex-compress on cards grid panels */
-      <div className="w-full shrink-0 min-h-full bg-gradient-to-br from-slate-50 via-violet-50 to-pink-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 pb-16 flex flex-col justify-start relative">
+      <div className="w-full shrink-0 min-h-full bg-gradient-to-br from-slate-50 via-violet-50 to-pink-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-300 pb-16 flex flex-col justify-start relative pt-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8 flex flex-col w-full">
           {/* Dynamic Hero Header Section */}
           <motion.div
@@ -1633,7 +1631,6 @@ function Dashboard({
 
           {/* Dynamic Metric Counter Sheets */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0">
-            {/* Metric Box 1: Total Assets */}
             <div className="rounded-3xl border border-slate-200/80 dark:border-slate-900 bg-white/80 dark:bg-slate-900/40 p-6 flex flex-col justify-between min-h-[140px] shadow-sm backdrop-blur-md">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
                 Total Assets
@@ -1648,7 +1645,6 @@ function Dashboard({
               </div>
             </div>
 
-            {/* Metric Box 2: Adaptive Performance Scores Ring */}
             <div className="rounded-3xl border border-slate-200/80 dark:border-slate-900 bg-white/80 dark:bg-slate-900/40 p-6 flex items-center justify-between min-h-[140px] shadow-sm backdrop-blur-md">
               <div className="space-y-1">
                 <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
@@ -1710,7 +1706,6 @@ function Dashboard({
               </div>
             </div>
 
-            {/* Metric Box 3: Modules Configuration Tags */}
             <div className="rounded-3xl border border-slate-200/80 dark:border-slate-900 bg-white/80 dark:bg-slate-900/40 p-6 flex flex-col justify-between min-h-[140px] shadow-sm backdrop-blur-md">
               <p className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500">
                 Active Engines
@@ -1883,7 +1878,6 @@ function Dashboard({
                 </div>
               )}
 
-              {/* Quick Pipeline Trigger Links */}
               <div className="mt-6 border-t border-slate-200 dark:border-slate-900 pt-5">
                 <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-3.5">
                   Quick Pipeline Triggers
